@@ -4,7 +4,9 @@
   "description": "An express web app that allows for scheduled recording of audio sources.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint src",
+    "lintAndFix": "npx eslint src --fix"
   },
   "repository": {
     "type": "git",
@@ -17,9 +19,11 @@
   },
   "homepage": "https://gitlab.com/Shaylin/web-audio-recorder#readme",
   "dependencies": {
-    "eslint": "^7.7.0",
     "express": "^4.17.1",
     "jasmine": "^3.6.1",
     "node-persist": "^3.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0"
   }
 }
