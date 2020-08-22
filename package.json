@@ -6,7 +6,8 @@
   "scripts": {
     "test": "npx jasmine",
     "lint": "npx eslint src spec",
-    "lintAndFix": "npx eslint src spec --fix"
+    "lintAndFix": "npx eslint src spec --fix",
+    "build": "npx webpack --config ./webpack.server-config.js"
   },
   "repository": {
     "type": "git",
@@ -20,8 +21,11 @@
   "homepage": "https://gitlab.com/Shaylin/web-audio-recorder#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "html-webpack-plugin": "^4.3.0",
     "node-persist": "^3.1.0",
-    "webpack": "^4.44.1"
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-node-externals": "^2.5.1"
   },
   "devDependencies": {
     "eslint": "^7.7.0",
