@@ -1,0 +1,32 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    Test View
+</head>
+
+<body>
+    <script>
+        function onButtonClicked() {
+            let httpRequest = new XMLHttpRequest();
+            console.log("Clicked button");
+
+            httpRequest.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("results").innerHTML = this.responseText;
+                }
+            };
+
+            httpRequest.open("GET", "./api/radioStations", true);
+            httpRequest.send();
+        }
+    </script>
+
+    <p id="results"></p>
+
+    <button type="button" onclick="onButtonClicked()">
+        Request All Radio Stations
+    </button>
+</body>
+
+</html>
