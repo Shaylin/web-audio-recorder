@@ -43,6 +43,7 @@ module.exports = class NodePersistRadioStationModel {
 
 		let radioStations = await this.getRadioStations();
 
+		//TODO: This is a bad thing to return to the client - we need just a success or no
 		return storage.updateItem(this.storageKey, radioStations);
 	}
 
