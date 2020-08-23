@@ -3,7 +3,8 @@
         "browser": true,
         "commonjs": true,
         "es2020": true,
-        "node": true
+        "node": true,
+        "jasmine": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
@@ -30,7 +31,7 @@
             "error",
             {
                 "vars": "all",
-                "args": "after-used",
+                "args": "none",
                 "ignoreRestSiblings": false
             }
         ]
