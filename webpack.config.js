@@ -1,6 +1,5 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const nodeExternals = require("webpack-node-externals");
-const terser = require('terser');
 const path = require("path");
 
 module.exports = {
