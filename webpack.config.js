@@ -1,5 +1,6 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const nodeExternals = require("webpack-node-externals");
+const terser = require('terser');
 const path = require("path");
 
 module.exports = {
@@ -10,14 +11,17 @@ module.exports = {
 	},
 	output: {
 		path: path.resolve(__dirname + "/build"),
-		filename: "server.js"
+		filename: "server/server.js"
 	},
 	externals: [nodeExternals()],
 	plugins: [
-        new CopyPlugin({
-            patterns: [
-                { from: "src/client/", to: "client/" }
-            ]
-        })
-    ]
+		new CopyPlugin({
+			patterns: [
+				{
+					from: "src/client/",
+					to: "client/"
+				}
+			]
+		})
+	]
 }

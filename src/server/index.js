@@ -21,7 +21,7 @@ async function initApplication() {
 	createRadioStationRoutes(app, radioStationModel);
 
 	app.get("/", (req, res) => {
-		res.sendFile(path.join(__dirname + "../client/view.html"));
+		res.sendFile(path.join(__dirname + "/../client/view.html"));
 	});
 
 	app.listen(3000, () => {
