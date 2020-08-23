@@ -7,11 +7,11 @@ module.exports = {
 	target: "node",
 	mode: "production",
 	entry: {
-		app: ["./src/server/index.js"]
+		app: ["./src/index.js"]
 	},
 	output: {
 		path: path.resolve(__dirname + "/build"),
-		filename: "server/server.js"
+		filename: "server.js"
 	},
 	externals: [nodeExternals()],
 	plugins: [
