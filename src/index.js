@@ -4,6 +4,7 @@ const app = express();
 
 app.use(express.json());
 app.set("view engine", "pug");
+app.set('views', path.join(__dirname, '/client/view'));
 
 const createRadioStationModel = require("./data/radioStation/createRadioStationModel.js");
 const createRadioStationRoutes = require("./api/radioStation/createRadioStationRoutes.js");
@@ -16,12 +17,11 @@ async function initApplication() {
 	let radioStationModel = await createRadioStationModel();
 
 	let allRadioStations = await radioStationModel.getRadioStations();
-	console.log(allRadioStations);
-    
+
 	createRadioStationRoutes(app, radioStationModel);
 
 	app.get("/", (req, res) => {
-		res.sendFile(path.join(__dirname + "/../client/view.html"));
+		res.render('index', { title: 'Hey', message: 'Hello there!' })
 	});
 
 	app.listen(3000, () => {

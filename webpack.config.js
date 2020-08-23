@@ -12,6 +12,9 @@ module.exports = {
 		path: path.resolve(__dirname + "/build"),
 		filename: "server.js"
 	},
+	node: {
+		__dirname: true
+	},
 	externals: [nodeExternals()],
 	plugins: [
 		new CopyPlugin({

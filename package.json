@@ -8,7 +8,7 @@
     "lint": "npx eslint src spec",
     "lintAndFix": "npx eslint src spec --fix",
     "build": "npx webpack",
-    "serve": "node ./build/server/server.js"
+    "serve": "node ./build/server.js"
   },
   "repository": {
     "type": "git",
