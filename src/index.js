@@ -21,7 +21,7 @@ async function initApplication() {
 	createRadioStationRoutes(app, radioStationModel);
 
 	app.get("/", (req, res) => {
-		res.render('index', { title: 'Hey', message: 'Hello there!' })
+		res.render('index', { title: 'Hellouwe', message: 'Hello there!' })
 	});
 
 	app.listen(3000, () => {
