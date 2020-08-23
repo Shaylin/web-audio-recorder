@@ -4,6 +4,18 @@ describe("RadioStationModel", () => {
 	let radioStationModel = null;
 	let mockRadioStationModelAdapter = null;
 
+	const class95 = {
+		name: "Class95",
+		url: "http://Class95.sg"
+	};
+
+	const money98 = {
+		name: "Money98",
+		url: "http://Money98.com"
+	};
+
+	const allRadioStations = [class95, money98];
+
 	beforeEach(() => {
 		mockRadioStationModelAdapter = getMockRadioStationModelAdapter();
 		radioStationModel = new RadioStationModel(mockRadioStationModelAdapter);
@@ -15,23 +27,25 @@ describe("RadioStationModel", () => {
 		});
 	});
 
-	it("Should be true", () => {
-		let ting = true;
-		expect(ting).toBe(true);
+	describe("getRadioStations", () => {
+		it("Should call the getRadioStations function on the adapter", (done) => {
+			expect(mockRadioStationModelAdapter.getRadioStations).not.toHaveBeenCalled();
+
+			radioStationModel.getRadioStations().then((radioStations) => {
+				expect(mockRadioStationModelAdapter.getRadioStations).toHaveBeenCalled();
+				expect(radioStations).toEqual(allRadioStations);
+				done();
+			});
+		});
 	});
 
 	function getMockRadioStationModelAdapter() {
-		return {
-			getRadioStations: () => {
-			},
-			getRadioStation: (name) => {
-			},
-			addRadioStation: (name, url) => {
-			},
-			updateRadioStation: (name, url) => {
-			},
-			removeRadioStation: (name) => {
-			}
-		};
+		return jasmine.createSpyObj("adapter", {
+			"getRadioStations": new Promise(resolve => resolve(allRadioStations)),
+			"getRadioStation": 2,
+			"addRadioStation": 2,
+			"updateRadioStation": 3,
+			"removeRadioStation": 3
+		});
 	}
 });
