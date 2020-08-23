@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "eslint": "^7.7.0",
-    "jasmine": "^3.6.1"
+    "jasmine": "^3.6.1",
+    "rewire": "^5.0.0"
   }
 }
