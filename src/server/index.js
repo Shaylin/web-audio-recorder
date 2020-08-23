@@ -1,9 +1,9 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-app.use(express.json());
 
-const port = 3000;
+app.use(express.json());
+app.set("view engine", "pug");
 
 const createRadioStationModel = require("./data/radioStation/createRadioStationModel.js");
 const createRadioStationRoutes = require("./api/radioStation/createRadioStationRoutes.js");
@@ -24,8 +24,8 @@ async function initApplication() {
 		res.sendFile(path.join(__dirname + "/view.html"));
 	});
 
-	app.listen(port, () => {
-		console.log(`Example app listnering at http://localhost:${port}`);
+	app.listen(3000, () => {
+		console.log(`App listnering at http://localhost:3000`);
 	});
 }
 
