@@ -27,14 +27,14 @@ module.exports = (app, radioStationModel) => {
 	app.post("/api/radioStations", async (req, res) => {
 		await radioStationModel.addRadioStation(req.body.name, req.body.url);
 
-		res.send({name: req.body.name, url: req.body.url});
+		res.send({ name: req.body.name, url: req.body.url });
 	});
 
-	app.put("/api/radioStations/:name", async (req, res) => {
-		//Look up station - if it doesnt exist 404
+	//app.put("/api/radioStations/:name", async (req, res) => {
+	//Look up station - if it doesnt exist 404
 
-		//If its a malformed update request return 400
+	//If its a malformed update request return 400
 
-		//If successful, return updated course
-	});
+	//If successful, return updated course
+	//});
 };
