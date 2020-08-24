@@ -1,7 +1,7 @@
 const storage = require("node-persist");
 
-const NodePersistRadioStationModel = require("./nodePersistRadioStationModel.js");
-const RadioStationModel = require("./radioStationModel.js");
+const NodePersistRadioStationModel = require("./nodePersistRadioStationModel");
+const RadioStationModel = require("./radioStationModel");
 
 module.exports = async () => {
 	await storage.init();

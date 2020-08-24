@@ -18,7 +18,3 @@ lint:
   script: 
     - npm install
     - npm run lint
-
-
-
-

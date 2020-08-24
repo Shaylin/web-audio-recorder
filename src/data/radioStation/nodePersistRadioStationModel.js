@@ -15,7 +15,6 @@ module.exports = class NodePersistRadioStationModel {
 		}
 	}
 
-
 	async getRadioStations() {
 		let radioStationObjects = [];
 
