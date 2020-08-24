@@ -51,13 +51,49 @@ describe("RadioStationModel", () => {
 		});
 	});
 
+	describe("addRadioStation", ()=> {
+		it("Should return the value from calling addRadioStation on the adapter", (done) => {
+			expect(mockRadioStationModelAdapter.addRadioStation).not.toHaveBeenCalled();
+
+			radioStationModel.addRadioStation("Yes933", "http://yes.sg").then((addResult) => {
+				expect(mockRadioStationModelAdapter.addRadioStation).toHaveBeenCalledWith("Yes933", "http://yes.sg");
+				expect(addResult).toEqual(true);
+				done();
+			});
+		});
+	});
+
+	describe("updateRadioStation", ()=> {
+		it("Should return the value from calling updateRadioStation on the adapter", (done) => {
+			expect(mockRadioStationModelAdapter.updateRadioStation).not.toHaveBeenCalled();
+
+			radioStationModel.updateRadioStation("Money98", "http://yez.sg").then((updateResult) => {
+				expect(mockRadioStationModelAdapter.updateRadioStation).toHaveBeenCalledWith("Money98", "http://yez.sg");
+				expect(updateResult).toEqual(false);
+				done();
+			});
+		});
+	});
+
+	describe("removeRadioStation", ()=> {
+		it("Should return the value from calling removeRadioStation on the adapter", (done) => {
+			expect(mockRadioStationModelAdapter.removeRadioStation).not.toHaveBeenCalled();
+
+			radioStationModel.removeRadioStation("Class95").then((removeResult) => {
+				expect(mockRadioStationModelAdapter.removeRadioStation).toHaveBeenCalledWith("Class95");
+				expect(removeResult).toEqual(true);
+				done();
+			});
+		});
+	});
+
 	function getMockRadioStationModelAdapter() {
 		return jasmine.createSpyObj("adapter", {
 			"getRadioStations": new Promise(resolve => resolve(allRadioStations)),
 			"getRadioStation": new Promise(resolve => resolve(class95)),
-			"addRadioStation": 2,
-			"updateRadioStation": 3,
-			"removeRadioStation": 3
+			"addRadioStation": new Promise(resolve => resolve(true)),
+			"updateRadioStation": new Promise(resolve => resolve(false)),
+			"removeRadioStation": new Promise(resolve => resolve(true))
 		});
 	}
 });
