@@ -15,11 +15,12 @@ module.exports = class NodePersistRadioStationModel {
 		}
 	}
 
+
 	async getRadioStations() {
 		let radioStationObjects = [];
-        
+
 		this.radioStations.forEach((value, key) => {
-			radioStationObjects.push({name: key, url: value});
+			radioStationObjects.push({ name: key, url: value });
 		});
 
 		return radioStationObjects;
@@ -27,31 +28,41 @@ module.exports = class NodePersistRadioStationModel {
 
 	async getRadioStation(name) {
 		if (!this.radioStations.has(name)) return null;
-        
-		return {name: name, url: this.radioStations.get(name)};
+
+		return { name: name, url: this.radioStations.get(name) };
 	}
 
-	//TODO: How to handle zees
 	async updateRadioStation(name, url) {
-		if (!this.radioStations.has(name)) return null;
+		if (!this.radioStations.has(name)) return false;
 
-        
+		this.radioStations.set(name, url);
+
+		let radioStations = await this.getRadioStations();
+		await storage.updateItem(this.storageKey, radioStations);
+
+		return true;
 	}
 
 	async addRadioStation(name, url) {
 		this.radioStations.set(name, url);
 
 		let radioStations = await this.getRadioStations();
+		await storage.updateItem(this.storageKey, radioStations);
 
-		//TODO: This is a bad thing to return to the client - we need just a success or no
-		return storage.updateItem(this.storageKey, radioStations);
+		if (!this.radioStations.has(name)) return false;
+
+		return true;
 	}
 
 	async removeRadioStation(name) {
+		if (!this.radioStations.has(name)) return false;
+
 		this.radioStations.delete(name);
 
 		let radioStations = await this.getRadioStations();
 
-		return storage.updateItem(this.storageKey, radioStations);
+		await storage.updateItem(this.storageKey, radioStations);
+
+		return true;
 	}
 };
