@@ -1,10 +1,9 @@
-const storage = require("node-persist");
-
 module.exports = class NodePersistRadioStationModel {
-	async init(storageKey) {
+	async init(storageKey, storage) {
 		this.storageKey = storageKey;
+		this.storage = storage;
 
-		const storedRadioStations = await storage.get(storageKey);
+		const storedRadioStations = await this.storage.get(storageKey);
 
 		this.radioStations = new Map();
 
@@ -37,7 +36,7 @@ module.exports = class NodePersistRadioStationModel {
 		this.radioStations.set(name, url);
 
 		let radioStations = await this.getRadioStations();
-		await storage.updateItem(this.storageKey, radioStations);
+		await this.storage.updateItem(this.storageKey, radioStations);
 
 		return true;
 	}
@@ -46,7 +45,7 @@ module.exports = class NodePersistRadioStationModel {
 		this.radioStations.set(name, url);
 
 		let radioStations = await this.getRadioStations();
-		await storage.updateItem(this.storageKey, radioStations);
+		await this.storage.updateItem(this.storageKey, radioStations);
 
 		if (!this.radioStations.has(name)) return false;
 
@@ -60,7 +59,7 @@ module.exports = class NodePersistRadioStationModel {
 
 		let radioStations = await this.getRadioStations();
 
-		await storage.updateItem(this.storageKey, radioStations);
+		await this.storage.updateItem(this.storageKey, radioStations);
 
 		return true;
 	}

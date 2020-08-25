@@ -7,7 +7,7 @@ module.exports = async () => {
 	await storage.init();
 
 	const nodePersistRadioStationModel = new NodePersistRadioStationModel();
-	await nodePersistRadioStationModel.init("radioStations");
+	await nodePersistRadioStationModel.init("radioStations", storage);
 
 	return new RadioStationModel(nodePersistRadioStationModel);
 };
