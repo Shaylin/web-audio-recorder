@@ -6,17 +6,17 @@ app.use(express.json());
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "/client/view"));
 
-const createRadioStationModel = require("./data/radioStation/createRadioStationModel.js");
-const createRadioStationRoutes = require("./api/radioStation/createRadioStationRoutes.js");
+const createAudioSourceModel = require("./data/audioSource/createAudioSourceModel.js");
+const createAudioSourceRoutes = require("./api/audioSource/createAudioSourceRoutes.js");
 
 function main() {
 	initApplication().then(() => console.log("Application initialised"));
 }
 
 async function initApplication() {
-	let radioStationModel = await createRadioStationModel();
+	let audioSourceModel = await createAudioSourceModel();
 	
-	createRadioStationRoutes(app, radioStationModel);
+	createAudioSourceRoutes(app, audioSourceModel);
 
 	app.get("/", (req, res) => {
 		res.render("index", { title: "Hellouwe", message: "Hello there!" });
