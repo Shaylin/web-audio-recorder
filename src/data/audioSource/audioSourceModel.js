@@ -1,12 +1,16 @@
+/**
+* A Model that stores audio source objects. These objects feature the following fields:
+* @param {String} name The name of the audio source. 
+* @param {String} url The http url of the audio source that this task will record.
+*/
 module.exports = class AudioSourceModel {
 	constructor(adapter) {
 		this.adapter = adapter;
 	}
 
 	/**
-	* Retrieve an array of all raudio source objects currently stored in the model.
-	* The audio source objects feature both a name and url string parameter.
-	* @returns {Promise<Array>} A promise that resolves to an array of all raudio source objects.
+	* Retrieve an array of all audio source objects currently stored in the model.
+	* @returns {Promise<Array>} A promise that resolves to an array of all audio source objects.
 	*/
 	async getAudioSources() {
 		return this.adapter.getAudioSources();
@@ -14,9 +18,8 @@ module.exports = class AudioSourceModel {
 
 	/**
 	* Returns an audio source object with an expected name.
-	* The audio source object features both a name and url string parameter.
-	* @param {String} The name of the audio source to be retrieved. E.g. "Radio98"
-	* @returns {Promise<Boolean>} A promise that resolves to the audio source with the requested name if it exists.
+	* @param {String} name The name of the audio source to be retrieved. E.g. "Radio98"
+	* @returns {Promise<AudioSource>} A promise that resolves to the audio source with the requested name if it exists.
 	* Otherwise returns a promise that resolves to null.
 	*/
 	async getAudioSource(name) {
@@ -25,8 +28,8 @@ module.exports = class AudioSourceModel {
 
 	/**
 	* Add an audio source object to the model with a provided name and url.
-	* @param {String} The name of the audio source to be added. E.g. "Radio98"
-	* @param {String} The url of the audio source  to be added. E.g. "http://radio98.com"
+	* @param {String} name The name of the audio source to be added. E.g. "Radio98"
+	* @param {String} url The url of the audio source  to be added. E.g. "http://radio98.com"
 	* @returns {Promise<Boolean>} A promise that resolves to true if adding the audio source is successful.
 	* Otherwise returns a promise that resolves to false.
 	*/
@@ -36,8 +39,8 @@ module.exports = class AudioSourceModel {
 
 	/**
 	* Update the url of an audio station in the model with an expected name.
-	* @param {String} The name of the audio source to be updated. E.g. "Radio98"
-	* @param {String} The new url of the audio source. E.g. "http://radio98.com"
+	* @param {String} name The name of the audio source to be updated. E.g. "Radio98"
+	* @param {String} url The new url of the audio source. E.g. "http://radio98.com"
 	* @returns {Promise<Boolean>} A promise that resolves to true if updating the audio source is successful.
 	* If the audio source does not exist in the model, it returns a promise that resolves to false.
 	*/
@@ -47,7 +50,7 @@ module.exports = class AudioSourceModel {
 
 	/**
 	* Remove an audio source from the model with an expected name.
-	* @param {String} The name of the audio source to be removed. E.g. "Radio98"
+	* @param {String} name The name of the audio source to be removed. E.g. "Radio98"
 	* @returns {Promise<Boolean>} A promise that resolves to true if removing the audio source is successful.
 	* If the audio source does not exist in the model, it returns a promise that resolves to false.
 	*/
