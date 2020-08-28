@@ -6,8 +6,8 @@ const AudioSourceModel = require("./audioSourceModel");
 module.exports = async () => {
 	await storage.init();
 
-	const nodePersistRadioStationModel = new NodePersistAudioSourceModel();
-	await nodePersistRadioStationModel.init("audioSources", storage);
+	const nodePersistAudioSourceModel = new NodePersistAudioSourceModel();
+	await nodePersistAudioSourceModel.init("audioSources", storage);
 
-	return new AudioSourceModel(nodePersistRadioStationModel);
+	return new AudioSourceModel(nodePersistAudioSourceModel);
 };

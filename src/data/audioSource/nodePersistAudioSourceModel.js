@@ -3,7 +3,7 @@ module.exports = class NodePersistAudioSourceModel {
 		this.storageKey = storageKey;
 		this.storage = storage;
 
-		const storedAudioSources = await this.storage.get(storageKey);
+		const storedAudioSources = await this.storage.get(this.storageKey);
 
 		this.audioSources = new Map();
 
@@ -58,7 +58,6 @@ module.exports = class NodePersistAudioSourceModel {
 		this.audioSources.delete(name);
 
 		let audioSources = await this.getAudioSources();
-
 		await this.storage.updateItem(this.storageKey, audioSources);
 
 		return true;
