@@ -43,7 +43,7 @@ module.exports = class NodePersistRecordingTaskModel {
 	async addRecordingTask(recordingTask) {
 		let uuid = this.uuidGenerator();
 		let recordingTaskToAdd = {id: uuid};
-		Object.assign(recordingTaskToAdd, recordingTask)
+		Object.assign(recordingTaskToAdd, recordingTask);
 
 		this.recordingTasks.set(uuid, recordingTaskToAdd);
 

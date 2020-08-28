@@ -1,5 +1,5 @@
 const storage = require("node-persist");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 const NodePersistRecordingTaskModel = require("./nodePersistRecordingTaskModel");
 const RecordingTaskModel = require("./recordingTaskModel");
