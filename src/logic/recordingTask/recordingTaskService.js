@@ -1,5 +1,10 @@
-//TODO: Figure out how to chain on events like uploading to object storage and stuff
-//TODO: It is part of a recording task to do the upload to some source? Methinkso
-module.exports = class RecordingTaskService {
+//const startRecordingTask = require("./startRecordingTask");
 
+//TODO: Figure out who chains on the promise
+module.exports = class RecordingTaskService {
+	constructor(recordingTaskModel, audioSourceModel, clipStorageModel) {
+		this.recordingTaskModel = recordingTaskModel;
+		this.audioSourceModel = audioSourceModel;
+		this.clipStorageModel = clipStorageModel;
+	}
 };
