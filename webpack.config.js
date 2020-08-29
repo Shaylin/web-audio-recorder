@@ -22,6 +22,10 @@ module.exports = {
 				{
 					from: "src/client/",
 					to: "client/"
+				},
+				{
+					from: "src/server-config.json",
+					to: "./server-config.json"
 				}
 			]
 		})
