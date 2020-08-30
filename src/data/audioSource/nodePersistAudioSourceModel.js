@@ -47,9 +47,7 @@ module.exports = class NodePersistAudioSourceModel {
 		let audioSources = await this.getAudioSources();
 		await this.storage.updateItem(this.storageKey, audioSources);
 
-		if (!this.audioSources.has(name)) return false;
-
-		return true;
+		return this.getAudioSource(name);
 	}
 
 	async removeAudioSource(name) {

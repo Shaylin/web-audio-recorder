@@ -26,6 +26,8 @@ module.exports = class NodePersistRecordingTaskModel {
 	}
 
 	async getRecordingTask(id) {
+		if (!this.recordingTasks.has(id)) return null;
+
 		return this.recordingTasks.get(id);
 	}
 
@@ -48,12 +50,9 @@ module.exports = class NodePersistRecordingTaskModel {
 		this.recordingTasks.set(uuid, recordingTaskToAdd);
 
 		let recordingTasks = await this.getRecordingTasks();
-		console.log(`Setting ${recordingTasks}`);
 		await this.storage.updateItem(this.storageKey, recordingTasks);
 
-		if (!this.recordingTasks.has(recordingTask.id)) return false;
-
-		return true;
+		return recordingTaskToAdd;
 	}
 
 	async removeRecordingTask(id) {

@@ -123,9 +123,9 @@ describe("NodePersistAudioSourceModel", () => {
 				});
 			});
 
-			it("Should return true ", async (done) => {
+			it("Should return the audio source that was added to the model ", async (done) => {
 				nodePersistAudioSourceModel.addAudioSource("Yes933", "http://Yes933.com").then((addResult) => {
-					expect(addResult).toBe(true);
+					expect(addResult).toEqual({name: "Yes933", url: "http://Yes933.com"});
 					done();
 				});
 			});
@@ -148,9 +148,9 @@ describe("NodePersistAudioSourceModel", () => {
 				});
 			});
 
-			it("Should return true ", async (done) => {
+			it("Should return the audio source that was updated in the model ", async (done) => {
 				nodePersistAudioSourceModel.addAudioSource("Class95", "http://Yes933.com").then((addResult) => {
-					expect(addResult).toBe(true);
+					expect(addResult).toEqual({name: "Class95", url: "http://Yes933.com"});
 					done();
 				});
 			});
