@@ -1,10 +1,41 @@
-//const startRecordingTask = require("./startRecordingTask");
-
-//TODO: Figure out who chains on the promise
 module.exports = class RecordingTaskService {
-	constructor(recordingTaskModel, audioSourceModel, clipStorageModel) {
+	constructor() {
+		this.activeRecordingTaskIds = new Set();
+	}
+
+	init(recordingTaskModel, audioSourceModel, recordingMethod, pollingMethod) {
 		this.recordingTaskModel = recordingTaskModel;
 		this.audioSourceModel = audioSourceModel;
-		this.clipStorageModel = clipStorageModel;
+		this.recordingMethod = recordingMethod;
+
+		pollingMethod(this.checkForTasksToExecute, 10000);
+	}
+
+	async checkForTasksToExecute() {
+		let date = new Date();
+		let allRecordingTasks = await this.recordingTaskModel.getRecordingTasks();
+
+		allRecordingTasks.forEach((recordingTask) => {
+			if (this.activeRecordingTaskIds.has(recordingTask.id)) return;
+
+			if (date.getHours() != recordingTask.hour || date.getMinutes != recordingTask.minutes) return;
+
+			this.executeRecordingTask(recordingTask)
+				.then((recordedFilename) => this.performPostRecordingTaskActions(recordingTask, recordedFilename));
+		});
+	}
+
+	async executeRecordingTask(recordingTask) {
+		this.activeRecordingTaskIds.add(recordingTask.id);
+
+		let url = await this.audioSourceModel.getAudioSource(recordingTask.audioSourceName).url;
+
+		return this.recordingMethod(recordingTask, url);
+	}
+
+	performPostRecordingTaskActions(recordingTask, recordedFilename) {
+		console.log(`Completed Recording ${recordedFilename}`);
+
+		this.activeRecordingTaskIds.delete(recordingTask.id);
 	}
 };

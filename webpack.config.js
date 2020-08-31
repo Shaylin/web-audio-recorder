@@ -24,8 +24,8 @@ module.exports = {
 					to: "client/"
 				},
 				{
-					from: "src/server-config.json",
-					to: "./server-config.json"
+					from: "src/serverConfig.json",
+					to: "./serverConfig.json"
 				}
 			]
 		})
