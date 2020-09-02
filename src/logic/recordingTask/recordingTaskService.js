@@ -15,15 +15,8 @@ module.exports = class RecordingTaskService {
 		let date = new Date();
 		let allRecordingTasks = await this.recordingTaskModel.getRecordingTasks();
 
-
 		allRecordingTasks.forEach((recordingTask) => {
-			console.log(`Checking Recording Task ${recordingTask.audioSourceName}`);
-			console.log(`Active ${this.activeRecordingTaskIds.has(recordingTask.id)}`);
-
 			if (this.activeRecordingTaskIds.has(recordingTask.id)) return;
-
-			console.log(`Node Time: ${date.getHours()} ${date.getMinutes()}`);
-			console.log(`Job Time: ${recordingTask.hour} ${recordingTask.minute}`);
 
 			if (date.getHours() != recordingTask.hour || date.getMinutes() != recordingTask.minute) return;
 
