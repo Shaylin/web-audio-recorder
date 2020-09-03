@@ -1,3 +1,4 @@
+const fs = require("fs");
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -9,6 +10,7 @@ app.set("views", path.join(__dirname, "/client/view"));
 const createRecordingTaskModel = require("./data/recordingTask/createRecordingTaskModel");
 const createAudioSourceModel = require("./data/audioSource/createAudioSourceModel");
 const createRecordingTaskService = require("./logic/recordingTask/createRecordingTaskService");
+const createClipStorageModel = require("./data/clipStorage/createClipStorageModel");
 
 async function main() {
 	let audioSourceModel = await createAudioSourceModel();
@@ -16,6 +18,21 @@ async function main() {
 	
 	let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel);
 	console.log(`Active Recording Tasks: ${recordingTaskService.getActiveRecordingTaskIds()}`);
+
+	let objectStorageConfig = JSON.parse(fs.readFileSync("serverConfig.json", "utf-8")).objectStorageSettings;
+	
+	let clipStorage = createClipStorageModel(objectStorageConfig);
+
+	//TODO: Make the model parse the stream and resolve to a json array once the stream ends
+	clipStorage.getClips().then((clipStream) => {
+		clipStream.on("data", (data) => {
+			console.log(data);
+		});
+
+		clipStream.on("end", () => {
+			console.log("Stream ended");
+		});
+	});
 
 	initApplication().then(() => console.log("Application initialised"));
 }

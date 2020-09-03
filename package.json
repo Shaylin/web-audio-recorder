@@ -8,7 +8,8 @@
     "lint": "npx eslint src spec",
     "lintAndFix": "npx eslint src spec --fix",
     "build": "npx webpack",
-    "buildAndServe": "npx webpack && node ./build/server.js"
+    "buildAndServe": "npx webpack && cd build && node server.js",
+    "serveDev": "cd src && node index.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "dependencies": {
     "copy-webpack-plugin": "^6.0.3",
     "express": "^4.17.1",
+    "minio": "^7.0.16",
     "node-persist": "^3.1.0",
     "pug": "^3.0.0",
     "uuid": "^8.3.0",
