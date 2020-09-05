@@ -23,7 +23,6 @@ async function main() {
 	
 	let clipStorage = createClipStorageModel(objectStorageConfig);
 
-	//TODO: Make the model parse the stream and resolve to a json array once the stream ends
 	clipStorage.getClips().then((clipStream) => {
 		clipStream.on("data", (data) => {
 			console.log(data);
