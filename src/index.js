@@ -15,22 +15,16 @@ const createClipStorageModel = require("./data/clipStorage/createClipStorageMode
 async function main() {
 	let audioSourceModel = await createAudioSourceModel();
 	let recordingTaskModel = await createRecordingTaskModel();
-	
+
 	let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel);
 	console.log(`Active Recording Tasks: ${recordingTaskService.getActiveRecordingTaskIds()}`);
 
 	let objectStorageConfig = JSON.parse(fs.readFileSync("serverConfig.json", "utf-8")).objectStorageSettings;
-	
+
 	let clipStorage = createClipStorageModel(objectStorageConfig);
 
-	clipStorage.getClips().then((clipStream) => {
-		clipStream.on("data", (data) => {
-			console.log(data);
-		});
-
-		clipStream.on("end", () => {
-			console.log("Stream ended");
-		});
+	clipStorage.getClipDownloadLink("Class95-2h30-29-8.ogg").then((downloadLink) => {
+		console.log(downloadLink);
 	});
 
 	initApplication().then(() => console.log("Application initialised"));

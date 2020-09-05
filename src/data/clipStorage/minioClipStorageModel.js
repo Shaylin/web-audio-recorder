@@ -3,14 +3,31 @@ module.exports = class MinioClipStorageModel {
 		this.minioClient = minioClient;
 		this.bucketName = bucketName;
 	}
-	
-	//TODO: Make the model parse the stream and resolve to a json array once the stream ends
+
 	async getClips() {
-		return this.minioClient.listObjects(this.bucketName);
+		let clipObjects = [];
+		let clipStream = this.minioClient.listObjects(this.bucketName);
+		
+		let clipObjectsPromise = new Promise(resolve => {
+			clipStream.on("data", (clipObject) => {
+				let clipToAdd = {};
+				clipToAdd.name = clipObject.name;
+				clipToAdd.fileSize = clipObject.size;
+				clipToAdd.lastModified = clipObject.lastModified;
+
+				clipObjects.push(clipToAdd);
+			});
+
+			clipStream.on("end", () => {
+				resolve(clipObjects);
+			});
+		});
+		
+		return clipObjectsPromise;
 	}
 
 	async getClipDownloadLink(name) {
-		return this.minioClient.presignedUrl("GET", this.bucketName, name);
+		return this.minioClient.presignedGetObject(this.bucketName, name);
 	}
 
 	async uploadClip(name) {
