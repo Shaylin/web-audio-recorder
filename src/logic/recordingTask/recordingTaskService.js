@@ -3,10 +3,11 @@ module.exports = class RecordingTaskService {
 		this.activeRecordingTaskIds = new Set();
 	}
 
-	init(recordingTaskModel, audioSourceModel, recordingMethod, pollingMethod) {
+	init(recordingTaskModel, audioSourceModel, recordingMethod, pollingMethod, postRecordingAction) {
 		this.recordingTaskModel = recordingTaskModel;
 		this.audioSourceModel = audioSourceModel;
 		this.recordingMethod = recordingMethod;
+		this.postRecordingAction = postRecordingAction;
 
 		pollingMethod(this.checkForTasksToExecute.bind(this), 10000);
 	}
@@ -19,7 +20,7 @@ module.exports = class RecordingTaskService {
 			if (this.activeRecordingTaskIds.has(recordingTask.id)) return;
 
 			if (date.getHours() != recordingTask.hour || date.getMinutes() != recordingTask.minute) return;
-
+			
 			this.executeRecordingTask(recordingTask)
 				.then((recordedFilename) => this.performPostRecordingTaskActions(recordingTask, recordedFilename));
 		});
@@ -36,6 +37,8 @@ module.exports = class RecordingTaskService {
 
 	performPostRecordingTaskActions(recordingTask, recordedFilename) {
 		console.log(`Completed Recording ${recordedFilename}`);
+
+		this.postRecordingAction(recordedFilename);
 
 		this.activeRecordingTaskIds.delete(recordingTask.id);
 	}

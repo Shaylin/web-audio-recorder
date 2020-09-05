@@ -6,6 +6,7 @@ describe("RecordingTaskService", () => {
 	let mockAudioSourceModel = null;
 	let mockRecordingMethod = null;
 	let mockPollingMethod = null;
+	let mockPostRecordingAction = null;
 
 	let recordingPromise = null;
 	let recordingPromiseResolve = null;
@@ -42,10 +43,11 @@ describe("RecordingTaskService", () => {
 		mockAudioSourceModel = getMockAudioSourceModel();
 		mockRecordingMethod = getMockRecordingMethod(recordingPromise);
 		mockPollingMethod = getMockPollingMethod();
+		mockPostRecordingAction = getMockPostRecordingAction();
 
 		recordingTaskService = new RecordingTaskService();
 
-		recordingTaskService.init(mockRecordingTaskModel, mockAudioSourceModel, mockRecordingMethod, mockPollingMethod);
+		recordingTaskService.init(mockRecordingTaskModel, mockAudioSourceModel, mockRecordingMethod, mockPollingMethod, mockPostRecordingAction);
 		recordingTaskService.activeRecordingTaskIds.add("1");
 	});
 
@@ -100,7 +102,7 @@ describe("RecordingTaskService", () => {
 
 		describe("When a recording task is not active", () => {
 			describe("And the task schedule matches the current time", () => {
-				it("Should execute the recording task and perform the post recording actions", (done) => {
+				it("Should execute the recording task", (done) => {
 					var mockedDate = new Date("December 17, 2020 20:00:00");
 					jasmine.clock().mockDate(mockedDate);
 
@@ -113,7 +115,7 @@ describe("RecordingTaskService", () => {
 					});
 				});
 
-				it("Should mark the task as active while perform post recording task actions when done", async (done) => {
+				it("Should mark the task as active while recording and perform post recording actions when done", async (done) => {
 					var mockedDate = new Date("December 17, 2020 20:00:00");
 					jasmine.clock().mockDate(mockedDate);
 
@@ -124,6 +126,8 @@ describe("RecordingTaskService", () => {
 					expect(recordingTaskService.getActiveRecordingTaskIds()).toEqual(["1", "2"]);
 
 					recordingPromise.then(() => {
+						//TODO: Figure out how to ensure post actions are complete
+						//expect(mockPostRecordingAction).toHaveBeenCalledWith("recordedClip.ogg");
 						done();
 					});
 
@@ -180,5 +184,9 @@ describe("RecordingTaskService", () => {
 
 	function getMockPollingMethod() {
 		return jasmine.createSpy("pollingMethod");
+	}
+
+	function getMockPostRecordingAction() {
+		return jasmine.createSpy("mockPostRecordingAction");
 	}
 });

@@ -13,18 +13,25 @@ const createRecordingTaskService = require("./logic/recordingTask/createRecordin
 const createClipStorageModel = require("./data/clipStorage/createClipStorageModel");
 
 async function main() {
+	let objectStorageConfig = JSON.parse(fs.readFileSync("serverConfig.json", "utf-8")).objectStorageSettings;
+	let clipStorage = createClipStorageModel(objectStorageConfig);
+
+	//TODO: The routing would determine if the view determines object storage is even visible?
+	let postRecordingAction = (recordingFilename) => {
+		console.log(`Post recording config ${objectStorageConfig}`);
+		//TODO: The config validation is broken
+		if (!isObjectStorageConfigValid(objectStorageConfig)) return;
+		console.log(`Performing post recording actions on ${recordingFilename}.`);
+		clipStorage.uploadClip(recordingFilename);
+	};
+
 	let audioSourceModel = await createAudioSourceModel();
 	let recordingTaskModel = await createRecordingTaskModel();
 
-	let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel);
-	console.log(`Active Recording Tasks: ${recordingTaskService.getActiveRecordingTaskIds()}`);
+	let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel, postRecordingAction.bind(this));
 
-	let objectStorageConfig = JSON.parse(fs.readFileSync("serverConfig.json", "utf-8")).objectStorageSettings;
-
-	let clipStorage = createClipStorageModel(objectStorageConfig);
-
-	clipStorage.getClipDownloadLink("Class95-2h30-29-8.ogg").then((downloadLink) => {
-		console.log(downloadLink);
+	recordingTaskService.getActiveRecordingTaskIds().then((activeTasks) => {
+		console.log(activeTasks);
 	});
 
 	initApplication().then(() => console.log("Application initialised"));
@@ -38,6 +45,16 @@ async function initApplication() {
 	app.listen(3000, () => {
 		console.log("App listening at http://localhost:3000");
 	});
+}
+
+function isObjectStorageConfigValid(objectStorageConfig) {
+	if (objectStorageConfig) return false;
+	if (typeof (objectStorageConfig.endPoint) != "string") return false;
+	if (typeof (objectStorageConfig.accessKey) != "string") return false;
+	if (typeof (objectStorageConfig.secretKey) != "string") return false;
+	if (typeof (objectStorageConfig.bucketName) != "string") return false;
+
+	return true;
 }
 
 main();
