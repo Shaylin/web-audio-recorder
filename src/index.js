@@ -16,10 +16,7 @@ async function main() {
 	let objectStorageConfig = JSON.parse(fs.readFileSync("serverConfig.json", "utf-8")).objectStorageSettings;
 	let clipStorage = createClipStorageModel(objectStorageConfig);
 
-	//TODO: The routing would determine if the view determines object storage is even visible?
 	let postRecordingAction = (recordingFilename) => {
-		console.log(`Post recording config ${objectStorageConfig}`);
-		//TODO: The config validation is broken
 		if (!isObjectStorageConfigValid(objectStorageConfig)) return;
 		console.log(`Performing post recording actions on ${recordingFilename}.`);
 		clipStorage.uploadClip(recordingFilename);
@@ -28,12 +25,11 @@ async function main() {
 	let audioSourceModel = await createAudioSourceModel();
 	let recordingTaskModel = await createRecordingTaskModel();
 
-	let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel, postRecordingAction.bind(this));
+	let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel, postRecordingAction);
 
-	recordingTaskService.getActiveRecordingTaskIds().then((activeTasks) => {
-		console.log(activeTasks);
-	});
-
+	let activeIds = recordingTaskService.getActiveRecordingTaskIds();
+	console.log(activeIds);
+ 
 	initApplication().then(() => console.log("Application initialised"));
 }
 
@@ -48,7 +44,7 @@ async function initApplication() {
 }
 
 function isObjectStorageConfigValid(objectStorageConfig) {
-	if (objectStorageConfig) return false;
+	if (!objectStorageConfig) return false;
 	if (typeof (objectStorageConfig.endPoint) != "string") return false;
 	if (typeof (objectStorageConfig.accessKey) != "string") return false;
 	if (typeof (objectStorageConfig.secretKey) != "string") return false;
