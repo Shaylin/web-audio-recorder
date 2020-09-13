@@ -24,7 +24,7 @@ module.exports = (app, recordingTaskModel, recordTaskService) => {
 		const recordingTask = await recordingTaskModel.getRecordingTask(req.params.id);
 
 		if (!recordingTask) {
-			res.status(404).send("The recording task list could not be retrieved");
+			res.status(404).send("The recording task could not be retrieved");
 			return;
 		}
 
@@ -36,10 +36,10 @@ module.exports = (app, recordingTaskModel, recordTaskService) => {
 	* @returns {Array} An array of all running recording task string ids if successful.
 	* Otherwise returns a 404 error.
 	*/
-	app.get("/api/recordingTasks/running", async (req, res) => {
+	app.get("/api/runningRecordingTasks", async (req, res) => {
 		const runningRecordingTasks = await recordTaskService.getActiveRecordingTaskIds();
 
-		if (!runningRecordingTasks) {
+		if (!!runningRecordingTasks) {
 			res.status(404).send("The running recording task list could not be retrieved");
 			return;
 		}

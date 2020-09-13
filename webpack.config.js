@@ -13,7 +13,7 @@ module.exports = {
 		filename: "server.js"
 	},
 	node: {
-		__dirname: true
+		__dirname: false
 	},
 	externals: [nodeExternals()],
 	plugins: [
