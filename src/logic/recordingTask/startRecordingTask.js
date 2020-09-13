@@ -5,7 +5,7 @@ module.exports = function (recordingTask, url) {
 		let recordingName = getRecordingName(recordingTask);
 		let durationInSeconds = recordingTask.duration * 60;
 
-		childProcess.exec(`ffmpeg -i ${url} -ac 1 -b:a 32K -t ${durationInSeconds} ${recordingName}`,
+		childProcess.exec(`ffmpeg -i ${url} -ac 1 -b:a 64K -t ${durationInSeconds} ${recordingName}`,
 			{ encoding: "utf8" },
 			(error) => {
 				if (error && error.code) {
@@ -23,5 +23,5 @@ function getRecordingName(recordingTask) {
 	let day = dateObject.getDate();
 	let month = dateObject.getMonth() + 1;
 
-	return `${recordingTask.audioSourceName}-${recordingTask.hour}h${recordingTask.minute}-${day}-${month}.ogg`;
+	return `${recordingTask.audioSourceName}-${recordingTask.hour}h${recordingTask.minute}-${day}-${month}.mp3`;
 }

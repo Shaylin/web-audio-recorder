@@ -9,28 +9,36 @@ app.set("views", path.join(__dirname, "/client/view"));
 
 const createRecordingTaskModel = require("./data/recordingTask/createRecordingTaskModel");
 const createAudioSourceModel = require("./data/audioSource/createAudioSourceModel");
-const createRecordingTaskService = require("./logic/recordingTask/createRecordingTaskService");
 const createClipStorageModel = require("./data/clipStorage/createClipStorageModel");
+
+const AudioSourceTester = require("./logic/audioSource/audioSourceTester");
+const createRecordingTaskService = require("./logic/recordingTask/createRecordingTaskService");
+
+const createRecordingTaskRoutes = require("./api/recordingTask/createRecordingTaskRoutes");
+const createAudioSourceRoutes = require("./api/audioSource/createAudioSourceRoutes");
+const createClipStorageRoutes = require("./api/clipStorage/createClipStorageRoutes");
 
 async function main() {
 	let objectStorageConfig = JSON.parse(fs.readFileSync("serverConfig.json", "utf-8")).objectStorageSettings;
-	let clipStorage = createClipStorageModel(objectStorageConfig);
+	let clipStorageModel = createClipStorageModel(objectStorageConfig);
 
 	let postRecordingAction = (recordingFilename) => {
 		if (!isObjectStorageConfigValid(objectStorageConfig)) return;
 		console.log(`Performing post recording actions on ${recordingFilename}.`);
-		clipStorage.uploadClip(recordingFilename);
+		clipStorageModel.uploadClip(recordingFilename);
 	};
 
 	let audioSourceModel = await createAudioSourceModel();
 	let recordingTaskModel = await createRecordingTaskModel();
 
 	let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel, postRecordingAction);
+	let audioSourceTester = new AudioSourceTester();
 
-	let activeIds = recordingTaskService.getActiveRecordingTaskIds();
-	console.log(activeIds);
- 
-	initApplication().then(() => console.log("Application initialised"));
+	createAudioSourceRoutes(app, audioSourceModel, audioSourceTester);
+	createClipStorageRoutes(app, clipStorageModel);
+	createRecordingTaskRoutes(app, recordingTaskModel, recordingTaskService);
+
+	initApplication().then(() => console.log("Application initialised."));
 }
 
 async function initApplication() {

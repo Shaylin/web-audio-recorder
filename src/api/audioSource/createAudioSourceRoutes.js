@@ -1,7 +1,7 @@
 module.exports = (app, audioSourceModel, audioSourceTester) => {
 	/**
 	* Retrieve all audio source objects currently stored by the app.
-	* @returns {Array} A promise that resolves to an array of all audio source objects if successful.
+	* @returns {Array} An array of all audio source objects if successful.
 	* Otherwise returns a 404 error.
 	*/
 	app.get("/api/audioSources", async (req, res) => {
@@ -72,8 +72,25 @@ module.exports = (app, audioSourceModel, audioSourceTester) => {
 			return;
 		}
 
-		let testResult = await audioSourceTester.test(audioSource);
+		let testResult = await audioSourceTester.testAudioSource(audioSource);
 
 		res.send(testResult);
+	});
+
+	/**
+	* Delete an existing audio source stored in the app.
+	* @param {String} name The name of the audio source to delete.
+	* @returns {Boolean} Whether or not the deletion was sucessful.
+	* If an audio source with the given name cannot be found in the app, a 404 error will be returned.
+	*/
+	app.delete("/api/audioSources/:name", async (req, res) => {
+		const deletionResult = await audioSourceModel.removeAudioSource(req.params.name);
+
+		if (!deletionResult) {
+			res.status(404).send(`The audio source named ${req.params.name} could not be deleted`);
+			return;
+		}
+
+		res.send(deletionResult);
 	});
 };
