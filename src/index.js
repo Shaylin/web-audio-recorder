@@ -19,7 +19,9 @@ const createAudioSourceRoutes = require("./api/audioSource/createAudioSourceRout
 const createClipStorageRoutes = require("./api/clipStorage/createClipStorageRoutes");
 
 async function main() {
-	let objectStorageConfig = JSON.parse(fs.readFileSync("serverConfig.json", "utf-8")).objectStorageSettings;
+	let serverConfig = JSON.parse(fs.readFileSync("serverConfig.json", "utf-8"));
+	
+	let objectStorageConfig = serverConfig.objectStorageSettings;
 	let clipStorageModel = createClipStorageModel(objectStorageConfig);
 
 	let postRecordingAction = (recordingFilename) => {
@@ -38,19 +40,20 @@ async function main() {
 	createClipStorageRoutes(app, clipStorageModel);
 	createRecordingTaskRoutes(app, recordingTaskModel, recordingTaskService);
 
-	initApplication().then(() => console.log("Application initialised."));
+	initApplication(serverConfig.port);
 }
 
-async function initApplication() {
+async function initApplication(port) {
 	app.get("/", (req, res) => {
 		res.render("index", { title: "Hellouwe", message: "Hello there!" });
 	});
 
-	app.listen(3000, () => {
-		console.log("App listening at http://localhost:3000");
+	app.listen(port, () => {
+		console.log(`App listening at http://localhost:${port}`);
 	});
 }
 
+//TODO: Fix this thing - reorganise the way things spin up
 function isObjectStorageEnabled(objectStorageConfig) {
 	if (!objectStorageConfig) return false;
 	return objectStorageConfig.enabled;

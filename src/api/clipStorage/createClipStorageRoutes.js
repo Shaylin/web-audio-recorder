@@ -34,17 +34,12 @@ module.exports = (app, clipStorageModel) => {
 	/**
 	* Delete an audio clip stored in the app.
 	* @param {String} name The name of the audio clip to delete.
-	* @returns {Boolean} Whether or not the deletion was sucessful.
+	* @returns {Boolean} True - because the minio client does not return an error on a failed deletion.
 	* If an audio clip with the given name cannot be found in the app, a 404 error will be returned.
 	*/
 	app.delete("/api/audioClips/:name", async (req, res) => {
-		const deletionResult = await clipStorageModel.deleteClip(req.params.name);
-
-		if (!deletionResult) {
-			res.status(404).send(`The audio clip named ${req.params.name} could not be deleted`);
-			return;
-		}
-
+		//TODO: Find a solution to minio client always returning true.
+		await clipStorageModel.deleteClip(req.params.name);
 		res.send(deletionResult);
 	});
 };

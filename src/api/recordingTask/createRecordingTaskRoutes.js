@@ -49,19 +49,35 @@ module.exports = (app, recordingTaskModel, recordTaskService) => {
 	});
 
 	/**
-	* Update an existing recording task stored in the app.
-	* @param {RecordingTask} recordingTask The recording task object to update provided as part of the request body.
-	* @returns {AudioSource} The audio source object that was just updated.
+	* Add a recording task to the app.
+	* @param {RecordingTask} recordingTask The recording task object to add provided as part of the request body.
+	* @returns {RecordingTask} The recording task object that was just added with a newly generated id.
 	*/
-	app.put("/api/recordingTasks/", async (req, res) => {
-		let updateResult = await recordingTaskModel.updateRecordingTask(req.body.recordingTask);
+	app.post("/api/recordingTasks/", async (req, res) => {
+		let updateResult = await recordingTaskModel.addRecordingTask(req.body);
 
 		if (!updateResult) {
-			res.status(404).send(`The recording task with id ${req.body.recordingTask.id} could not be updated`);
+			res.status(404).send(`The recording task ${req.body} could not be added`);
 			return;
 		}
 
-		res.send(req.body.recordingTask);
+		res.send(updateResult);
+	});
+
+	/**
+	* Update an existing recording task stored in the app.
+	* @param {RecordingTask} recordingTask The recording task object to update provided as part of the request body.
+	* @returns {RecordingTask} The recording task object that was just updated.
+	*/
+	app.put("/api/recordingTasks/", async (req, res) => {
+		let updateResult = await recordingTaskModel.updateRecordingTask(req.body);
+
+		if (!updateResult) {
+			res.status(404).send(`The recording task with id ${req.body.id} could not be updated`);
+			return;
+		}
+
+		res.send(updateResult);
 	});
 
 	/**
