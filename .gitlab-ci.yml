@@ -1,5 +1,6 @@
 stages:
   - quality
+  - release
 
 image: node:lts-alpine
 
@@ -18,3 +19,14 @@ lint:
   script: 
     - npm install
     - npm run lint
+
+relese:
+  stage: release
+  only:
+    - tags
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build

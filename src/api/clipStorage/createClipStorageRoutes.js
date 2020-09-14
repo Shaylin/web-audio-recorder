@@ -40,6 +40,6 @@ module.exports = (app, clipStorageModel) => {
 	app.delete("/api/audioClips/:name", async (req, res) => {
 		//TODO: Find a solution to minio client always returning true.
 		await clipStorageModel.deleteClip(req.params.name);
-		res.send(deletionResult);
+		res.send(true);
 	});
 };
