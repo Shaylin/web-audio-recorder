@@ -1,13 +1,15 @@
 {
+	"port": 9000,
 	"authenticationSettings": {
+		"enabled": false,
 		"temp": 2
 	},
 	"objectStorageSettings": {
-		"endPoint": "someIP.ip.ip.ip",
-		"port": 9000,
-		"useSSL": false,
-		"accessKey": "shaylin",
-		"secretKey": "somePassword",
-		"bucketName": "web-audio-storage"
+		"enabled": false,
+		"endPoint": "sg1.yourobjectstorage.com",
+		"useSSL": true,
+		"accessKey": "enteryourAccessKeyHey",
+		"secretKey": "enterYourSecretKeyHere",
+		"bucketName": "enterYourBucketNameHere"
 	}
 }

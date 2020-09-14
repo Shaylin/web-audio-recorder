@@ -23,7 +23,7 @@ async function main() {
 	let clipStorageModel = createClipStorageModel(objectStorageConfig);
 
 	let postRecordingAction = (recordingFilename) => {
-		if (!isObjectStorageConfigValid(objectStorageConfig)) return;
+		if (!isObjectStorageEnabled(objectStorageConfig)) return;
 		console.log(`Performing post recording actions on ${recordingFilename}.`);
 		clipStorageModel.uploadClip(recordingFilename);
 	};
@@ -51,14 +51,9 @@ async function initApplication() {
 	});
 }
 
-function isObjectStorageConfigValid(objectStorageConfig) {
+function isObjectStorageEnabled(objectStorageConfig) {
 	if (!objectStorageConfig) return false;
-	if (typeof (objectStorageConfig.endPoint) != "string") return false;
-	if (typeof (objectStorageConfig.accessKey) != "string") return false;
-	if (typeof (objectStorageConfig.secretKey) != "string") return false;
-	if (typeof (objectStorageConfig.bucketName) != "string") return false;
-
-	return true;
+	return objectStorageConfig.enabled;
 }
 
 main();
