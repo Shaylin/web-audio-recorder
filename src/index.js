@@ -23,21 +23,27 @@ async function main() {
 	
 	let objectStorageConfig = serverConfig.objectStorageSettings;
 	let clipStorageModel = createClipStorageModel(objectStorageConfig);
+	if (isObjectStorageEnabled(objectStorageConfig)) {
+		createClipStorageRoutes(app, clipStorageModel);
+	}
+
+	let audioSourceModel = await createAudioSourceModel();
+	let audioSourceTester = new AudioSourceTester();
+	createAudioSourceRoutes(app, audioSourceModel, audioSourceTester);
 
 	let postRecordingAction = (recordingFilename) => {
 		if (!isObjectStorageEnabled(objectStorageConfig)) return;
 		console.log(`Performing post recording actions on ${recordingFilename}.`);
-		clipStorageModel.uploadClip(recordingFilename);
+		clipStorageModel.uploadClip(recordingFilename).then(() => {
+			if (serverConfig.deleteClipsAfterPostRecordingActions) {
+				console.log(`Deleting ${recordingFilename}`);
+				fs.unlinkSync(recordingFilename);
+			}
+		});
 	};
 
-	let audioSourceModel = await createAudioSourceModel();
 	let recordingTaskModel = await createRecordingTaskModel();
-
 	let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel, postRecordingAction);
-	let audioSourceTester = new AudioSourceTester();
-
-	createAudioSourceRoutes(app, audioSourceModel, audioSourceTester);
-	createClipStorageRoutes(app, clipStorageModel);
 	createRecordingTaskRoutes(app, recordingTaskModel, recordingTaskService);
 
 	initApplication(serverConfig.port);
@@ -53,7 +59,6 @@ async function initApplication(port) {
 	});
 }
 
-//TODO: Fix this thing - reorganise the way things spin up
 function isObjectStorageEnabled(objectStorageConfig) {
 	if (!objectStorageConfig) return false;
 	return objectStorageConfig.enabled;

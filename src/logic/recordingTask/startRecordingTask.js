@@ -5,6 +5,8 @@ module.exports = function (recordingTask, url) {
 		let recordingName = getRecordingName(recordingTask);
 		let durationInSeconds = recordingTask.duration * 60;
 
+		console.log(`Starting recording for ${recordingName}`);
+
 		childProcess.exec(`ffmpeg -i ${url} -ac 1 -b:a 64K -t ${durationInSeconds} ${recordingName}`,
 			{ encoding: "utf8" },
 			(error) => {
