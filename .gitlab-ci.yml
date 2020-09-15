@@ -20,7 +20,7 @@ lint:
     - npm install
     - npm run lint
 
-relese:
+release:
   stage: release
   only:
     - tags
