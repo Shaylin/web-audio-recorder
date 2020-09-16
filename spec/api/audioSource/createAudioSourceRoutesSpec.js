@@ -21,6 +21,7 @@ describe("createAudioSourceRoutes", () => {
 
 	beforeEach(() => {
 		app = express();
+		app.use(express.json());
 		mockAudioSourceModel = getMockAudioSourceModel();
 		mockAudioSourceTester = getMockAudioSourceTester();
 	});
@@ -61,23 +62,87 @@ describe("createAudioSourceRoutes", () => {
 	});
 
 	describe("GET /api/audioSources/:name", () => {
+		describe("When the requested audio source exists in the model", () => {
+			it("Should return the audio source object matching that name", (done) => {
+				createAudioSourceRoutes(app, mockAudioSourceModel, mockAudioSourceTester);
+				expect(mockAudioSourceModel.getAudioSource).not.toHaveBeenCalled();
 
+				request(app)
+					.get("/api/audioSources/Class95")
+					.expect(200)
+					.expect((response) => {
+						expect(mockAudioSourceModel.getAudioSource).toHaveBeenCalledWith("Class95");
+						expect(response.body).toEqual(class95);
+					})
+					.then(done);
+			});
+		});
+
+		describe("When the requested audio source does not exist in the model", () => {
+			it("Should return a 404 error message to the client", (done) => {
+				mockAudioSourceModel = jasmine.createSpyObj("model", { "getAudioSource": new Promise(resolve => resolve(null)) });
+				createAudioSourceRoutes(app, mockAudioSourceModel, mockAudioSourceTester);
+				expect(mockAudioSourceModel.getAudioSource).not.toHaveBeenCalled();
+
+				request(app)
+					.get("/api/audioSources/Closs99")
+					.expect(404)
+					.expect((response) => {
+						expect(mockAudioSourceModel.getAudioSource).toHaveBeenCalledWith("Closs99");
+						expect(response.text).toEqual("The audio source named Closs99 was not found");
+					})
+					.then(done);
+			});
+		});
 	});
 
 	describe("POST  /api/audioSources", () => {
+		it("Should add the audio source object, provided in the request body, to the audio source model", (done) => {
+			createAudioSourceRoutes(app, mockAudioSourceModel, mockAudioSourceTester);
+			expect(mockAudioSourceModel.addAudioSource).not.toHaveBeenCalled();
 
+			let audioSourceToPost = { name: "Yes933", url: "http://yes933.sg" };
+
+			request(app)
+				.post("/api/audioSources")
+				.send(audioSourceToPost)
+				.expect(200)
+				.expect((response) => {
+					expect(mockAudioSourceModel.addAudioSource).toHaveBeenCalledWith("Yes933", "http://yes933.sg");
+					expect(response.body).toEqual(audioSourceToPost);
+				})
+				.then(done);
+		});
 	});
 
 	describe("PUT /api/audioSources/:name", () => {
+		describe("When the given audio source exists in the model", () => {
 
+		});
+
+		describe("When the given audio source does not exist in the model", () => {
+
+		});
 	});
 
 	describe("GET /api/audioSources/:name/test", () => {
+		describe("When the given audio source exists in the model", () => {
 
+		});
+
+		describe("When the given audio source does not exist in the model", () => {
+
+		});
 	});
 
 	describe("DELETE /api/audioSources/:name", () => {
+		describe("When the given audio source exists in the model", () => {
 
+		});
+
+		describe("When the given audio source does not exist in the model", () => {
+
+		});
 	});
 
 	function getMockAudioSourceModel() {
