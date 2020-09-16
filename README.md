@@ -11,8 +11,15 @@ The primary goal of this project was to develop a node webapp to be deployed to 
 
 ## Setup
 
-### FFmpeg
+### Software Dependencies 
+* Node.js 12 LTS - While this project may work with earlier versions, the latest Node.js 12 LTS is what it's being developed with.
+* FFmpeg - This project depends on having FFmpeg available on your PATH. If you're on a Debian based distro, installing FFmpeg should be as easy as running `sudo apt install ffmpeg`. Windows and MacOS binaries are available here: https://ffmpeg.zeranoe.com/builds/
 
-### Getting A Build
+### Building
+Builds aren't currently included as part of releases, however artifacts should be available on the latest tag's CI pipeline. For building the project yourself, use the following steps:
+* Clone the repository or download a zip of the repository and extract it
+* Inside the web-audio-recorder folder, run `npm install`
+* To build, run `npm run build`
+* You should now have a build directory that contains the server javascript bundle, the client view files as well as a server configuration json file.
 
 ### Configuration
