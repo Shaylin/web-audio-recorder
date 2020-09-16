@@ -117,31 +117,114 @@ describe("createAudioSourceRoutes", () => {
 
 	describe("PUT /api/audioSources/:name", () => {
 		describe("When the given audio source exists in the model", () => {
+			it("Should tell the audio source model to update the audio source object provided in the body", (done) => {
+				createAudioSourceRoutes(app, mockAudioSourceModel, mockAudioSourceTester);
+				expect(mockAudioSourceModel.updateAudioSource).not.toHaveBeenCalled();
 
+				let audioSourceToUpdate = { name: "Class95", url: "http://yes933.sg" };
+
+				request(app)
+					.put("/api/audioSources")
+					.send(audioSourceToUpdate)
+					.expect(200)
+					.expect((response) => {
+						expect(mockAudioSourceModel.updateAudioSource).toHaveBeenCalledWith("Class95", "http://yes933.sg");
+						expect(response.body).toEqual(audioSourceToUpdate);
+					})
+					.then(done);
+			});
 		});
 
 		describe("When the given audio source does not exist in the model", () => {
+			it("Should return a 404 error message to the client", (done) => {
+				mockAudioSourceModel = jasmine.createSpyObj("model", { "updateAudioSource": new Promise(resolve => resolve(null)) });
+				createAudioSourceRoutes(app, mockAudioSourceModel, mockAudioSourceTester);
+				expect(mockAudioSourceModel.updateAudioSource).not.toHaveBeenCalled();
 
+				let audioSourceToUpdate = { name: "Closs99", url: "http://yes933.sg" };
+
+				request(app)
+					.put("/api/audioSources")
+					.send(audioSourceToUpdate)
+					.expect(404)
+					.expect((response) => {
+						expect(mockAudioSourceModel.updateAudioSource).toHaveBeenCalledWith("Closs99", "http://yes933.sg");
+						expect(response.text).toEqual("The audio source named Closs99 was not found");
+					})
+					.then(done);
+			});
 		});
 	});
 
 	describe("GET /api/audioSources/:name/test", () => {
 		describe("When the given audio source exists in the model", () => {
+			it("Should return the test result returned by the audio source tester", (done) => {
+				createAudioSourceRoutes(app, mockAudioSourceModel, mockAudioSourceTester);
+				expect(mockAudioSourceTester.testAudioSource).not.toHaveBeenCalled();
 
+				request(app)
+					.get("/api/audioSources/Class95/test")
+					.expect(200)
+					.expect((response) => {
+						expect(mockAudioSourceTester.testAudioSource).toHaveBeenCalledWith(class95);
+						expect(response.text).toEqual("true");
+					})
+					.then(done);
+			});
 		});
 
 		describe("When the given audio source does not exist in the model", () => {
+			it("Should return a 404 error message to the client", (done) => {
+				mockAudioSourceModel = jasmine.createSpyObj("model", { "getAudioSource": new Promise(resolve => resolve(null)) });
+				mockAudioSourceTester = jasmine.createSpyObj("tester", { "testAudioSource": new Promise(resolve => resolve(false)) });
+				createAudioSourceRoutes(app, mockAudioSourceModel, mockAudioSourceTester);
+				expect(mockAudioSourceTester.testAudioSource).not.toHaveBeenCalled();
 
+				request(app)
+					.get("/api/audioSources/Closs95/test")
+					.expect(404)
+					.expect((response) => {
+						expect(mockAudioSourceModel.getAudioSource).toHaveBeenCalledWith("Closs95");
+						expect(mockAudioSourceTester.testAudioSource).not.toHaveBeenCalled();
+						expect(response.text).toEqual("The audio source named Closs95 was not found");
+					})
+					.then(done);
+			});
 		});
 	});
 
 	describe("DELETE /api/audioSources/:name", () => {
-		describe("When the given audio source exists in the model", () => {
+		describe("When the deletion of the audio source succeeds", () => {
+			it("Should return the deletion result returned by the audio source model", (done) => {
+				createAudioSourceRoutes(app, mockAudioSourceModel, mockAudioSourceTester);
+				expect(mockAudioSourceModel.removeAudioSource).not.toHaveBeenCalled();
 
+				request(app)
+					.delete("/api/audioSources/Class95")
+					.expect(200)
+					.expect((response) => {
+						expect(mockAudioSourceModel.removeAudioSource).toHaveBeenCalledWith("Class95");
+						expect(response.text).toEqual("true");
+					})
+					.then(done);
+			});
 		});
 
-		describe("When the given audio source does not exist in the model", () => {
+		describe("When the deletion of the audio source fails", () => {
+			it("Should return a 404 error message to the client", (done) => {
+				mockAudioSourceModel = jasmine.createSpyObj("model", { "removeAudioSource": new Promise(resolve => resolve(false)) });
+				createAudioSourceRoutes(app, mockAudioSourceModel, mockAudioSourceTester);
+				expect(mockAudioSourceModel.removeAudioSource).not.toHaveBeenCalled();
 
+				request(app)
+					.delete("/api/audioSources/Closs95")
+					.expect(404)
+					.expect((response) => {
+						expect(mockAudioSourceModel.removeAudioSource).toHaveBeenCalledWith("Closs95");
+						expect(response.text).toEqual("The audio source named Closs95 could not be deleted");
+					})
+					.then(done);
+			});
 		});
 	});
 
@@ -150,7 +233,7 @@ describe("createAudioSourceRoutes", () => {
 			"getAudioSources": new Promise(resolve => resolve(allAudioSources)),
 			"getAudioSource": new Promise(resolve => resolve(class95)),
 			"addAudioSource": new Promise(resolve => resolve(true)),
-			"updateAudioSource": new Promise(resolve => resolve(false)),
+			"updateAudioSource": new Promise(resolve => resolve(class95)),
 			"removeAudioSource": new Promise(resolve => resolve(true))
 		});
 	}

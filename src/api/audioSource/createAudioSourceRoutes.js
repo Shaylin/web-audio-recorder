@@ -47,11 +47,11 @@ module.exports = (app, audioSourceModel, audioSourceTester) => {
 	* @param {AudioSource} audioSource An audio source object as part of the body of the request.
 	* @returns {AudioSource} The audio source object that was just updated.
 	*/
-	app.put("/api/audioSources/:name", async (req, res) => {
+	app.put("/api/audioSources", async (req, res) => {
 		let updateResult = await audioSourceModel.updateAudioSource(req.body.name, req.body.url);
 
 		if (!updateResult) {
-			res.status(404).send(`The audio source named ${req.params.name} was not found`);
+			res.status(404).send(`The audio source named ${req.body.name} was not found`);
 			return;
 		}
 
