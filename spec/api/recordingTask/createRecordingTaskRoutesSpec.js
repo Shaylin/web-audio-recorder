@@ -23,6 +23,13 @@ describe("createRecordingTaskRoutesSpec", () => {
 		duration: 120
 	};
 
+	const task3 = {
+		audioSourceName: "Yes933",
+		hour: 1,
+		minute: 20,
+		duration: 12
+	};
+
 	const allRecordingTasks = [task1, task2];
 
 	beforeEach(() => {
@@ -104,32 +111,154 @@ describe("createRecordingTaskRoutesSpec", () => {
 
 	describe("GET /api/runningRecordingTasks", () => {
 		describe("When the recording task service returns an array of running task ids", () => {
+			it("Should return the array of running recording tasks from the service", (done) => {
+				createrecordingTaskRoutes(app, mockRecordingTaskModel, mockRecordingTaskService);
+				expect(mockRecordingTaskService.getActiveRecordingTaskIds).not.toHaveBeenCalled();
 
+				request(app)
+					.get("/api/runningRecordingTasks")
+					.expect(200)
+					.expect((response) => {
+						expect(mockRecordingTaskService.getActiveRecordingTaskIds).toHaveBeenCalled();
+						expect(response.body).toEqual(["222"]);
+					})
+					.then(done);
+			});
 		});
 
 		describe("When the list of running recording tasks are null or empty", () => {
+			it("Should return a 404 error to the client", (done) => {
+				mockRecordingTaskService = jasmine.createSpyObj("service", { "getActiveRecordingTaskIds": new Promise(resolve => resolve(null)) });
+				createrecordingTaskRoutes(app, mockRecordingTaskModel, mockRecordingTaskService);
+				expect(mockRecordingTaskService.getActiveRecordingTaskIds).not.toHaveBeenCalled();
 
+				request(app)
+					.get("/api/runningRecordingTasks")
+					.expect(404)
+					.expect((response) => {
+						expect(mockRecordingTaskService.getActiveRecordingTaskIds).toHaveBeenCalled();
+						expect(response.text).toEqual("The running recording task list could not be retrieved");
+					})
+					.then(done);
+			});
 		});
 	});
 
-	describe("POST /api/recordingTasks/", () => {
+	describe("POST /api/recordingTasks", () => {
+		describe("When the addition to the model is successful", () => {
+			it("Should add the recording task object, provided in the request body, to the recording task model", (done) => {
+				createrecordingTaskRoutes(app, mockRecordingTaskModel, mockRecordingTaskService);
+				expect(mockRecordingTaskModel.addRecordingTask).not.toHaveBeenCalled();
 
+				request(app)
+					.post("/api/recordingTasks")
+					.send(task3)
+					.expect(200)
+					.expect((response) => {
+						expect(mockRecordingTaskModel.addRecordingTask).toHaveBeenCalledWith(task3);
+						expect(response.body).toEqual(task3);
+					})
+					.then(done);
+			});
+		});
+
+		describe("When the addition to the model fails", () => {
+			it("Should return a 404 error to the client", (done) => {
+				mockRecordingTaskModel = jasmine.createSpyObj("model", { "addRecordingTask": new Promise(resolve => resolve(null)) });
+				createrecordingTaskRoutes(app, mockRecordingTaskModel, mockRecordingTaskService);
+				expect(mockRecordingTaskModel.addRecordingTask).not.toHaveBeenCalled();
+
+				request(app)
+					.post("/api/recordingTasks")
+					.send(task3)
+					.expect(404)
+					.expect((response) => {
+						expect(mockRecordingTaskModel.addRecordingTask).toHaveBeenCalledWith(task3);
+						expect(response.text).toEqual(`The recording task ${task3} could not be added`);
+					})
+					.then(done);
+			});
+		});
 	});
 
 	describe("PUT /api/recordingTasks/", () => {
+		describe("When the update result returned by the model is true", () => {
+			it("Should return true to the client", (done) => {
+				createrecordingTaskRoutes(app, mockRecordingTaskModel, mockRecordingTaskService);
+				expect(mockRecordingTaskModel.updateRecordingTask).not.toHaveBeenCalled();
 
+				request(app)
+					.put("/api/recordingTasks")
+					.send(task2)
+					.expect(200)
+					.expect((response) => {
+						expect(mockRecordingTaskModel.updateRecordingTask).toHaveBeenCalledWith(task2);
+						expect(response.text).toEqual("true");
+					})
+					.then(done);
+			});
+		});
+
+		describe("When the update result returned by the model is false", () => {
+			it("Should return a 404 error to the client", (done) => {
+				mockRecordingTaskModel = jasmine.createSpyObj("model", { "updateRecordingTask": new Promise(resolve => resolve(false)) });
+				createrecordingTaskRoutes(app, mockRecordingTaskModel, mockRecordingTaskService);
+				expect(mockRecordingTaskModel.updateRecordingTask).not.toHaveBeenCalled();
+
+				request(app)
+					.put("/api/recordingTasks")
+					.send(task2)
+					.expect(404)
+					.expect((response) => {
+						expect(mockRecordingTaskModel.updateRecordingTask).toHaveBeenCalledWith(task2);
+						expect(response.text).toEqual(`The recording task with id ${task2.id} could not be updated`);
+					})
+					.then(done);
+			});
+		});
 	});
 
 	describe("DELETE /api/recordingTasks/:id", () => {
+		describe("When the deletion result returned by the model is true", () => {
+			it("Should return true to the client", (done) => {
+				createrecordingTaskRoutes(app, mockRecordingTaskModel, mockRecordingTaskService);
+				expect(mockRecordingTaskModel.removeRecordingTask).not.toHaveBeenCalled();
 
+				request(app)
+					.delete("/api/recordingTasks/3")
+					.expect(200)
+					.expect((response) => {
+						expect(mockRecordingTaskModel.removeRecordingTask).toHaveBeenCalledWith("3");
+						expect(response.text).toEqual("true");
+					})
+					.then(done);
+			});
+		});
+
+		describe("When the deletion result returned by the model is false", () => {
+			it("Should return a 404 error to the client", (done) => {
+				mockRecordingTaskModel = jasmine.createSpyObj("model", { "removeRecordingTask": new Promise(resolve => resolve(false)) });
+				createrecordingTaskRoutes(app, mockRecordingTaskModel, mockRecordingTaskService);
+				expect(mockRecordingTaskModel.removeRecordingTask).not.toHaveBeenCalled();
+
+				request(app)
+					.delete("/api/recordingTasks/3")
+					.expect(404)
+					.expect((response) => {
+						expect(mockRecordingTaskModel.removeRecordingTask).toHaveBeenCalledWith("3");
+						expect(response.text).toEqual("The recording task with id 3 could not be deleted");
+					})
+					.then(done);
+			});
+		});
 	});
 
 	function getMockRecordingTaskModel() {
 		return jasmine.createSpyObj("model", {
 			"getRecordingTasks": new Promise(resolve => resolve(allRecordingTasks)),
 			"getRecordingTask": new Promise(resolve => resolve(task1)),
-			"addRecordingTask": new Promise(resolve => resolve(task2)),
-			"updateRecordingTask": new Promise(resolve => resolve(false)),
+			"addRecordingTask": new Promise(resolve => resolve(task3)),
+			"updateRecordingTask": new Promise(resolve => resolve(true)),
 			"removeRecordingTask": new Promise(resolve => resolve(true))
 		});
 	}

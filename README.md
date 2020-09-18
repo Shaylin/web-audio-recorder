@@ -21,5 +21,6 @@ Builds aren't currently included as part of releases, however artifacts should b
 * Inside the web-audio-recorder folder, run `npm install`
 * To build, run `npm run build`
 * You should now have a build directory that contains the server javascript bundle, the client view files as well as a server configuration json file.
+* To run the built app run `node server.js` inside the build folder.
 
 ### Configuration
