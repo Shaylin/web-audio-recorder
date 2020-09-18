@@ -24,3 +24,9 @@ Builds aren't currently included as part of releases, however artifacts should b
 * To run the built app run `node server.js` inside the build folder.
 
 ### Configuration
+
+
+## TODO:
+* Auth0 backed user authentication
+* A simple client front end
+* Configuration docs
