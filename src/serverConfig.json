@@ -3,7 +3,9 @@
 	"deleteClipsAfterPostRecordingActions": true,
 	"authenticationSettings": {
 		"enabled": false,
-		"temp": 2
+		"domain": "enterDomainHere",
+		"clientId": "enterClientIdHere",
+		"clientSecret": "enterClientSecretHere"
 	},
 	"objectStorageSettings": {
 		"enabled": false,
