@@ -1,6 +1,6 @@
 const CopyPlugin = require('copy-webpack-plugin');
-const nodeExternals = require("webpack-node-externals");
 const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
 	target: "node",
@@ -15,8 +15,8 @@ module.exports = {
 	node: {
 		__dirname: false
 	},
-	externals: [nodeExternals()],
 	plugins: [
+		new webpack.BannerPlugin({ banner: "#!/usr/bin/env node", raw: true }),
 		new CopyPlugin({
 			patterns: [
 				{
