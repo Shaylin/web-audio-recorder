@@ -3,3 +3,4 @@ bin
 .node-persist
 build
 *.ogg
+*.env

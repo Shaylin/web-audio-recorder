@@ -1,14 +1,14 @@
 const MinioClipStorageModel = require("./minioClipStorageModel");
 const minio = require("minio");
 
-module.exports = (objectStorageConfig) => {
+module.exports = () => {
 	let minioClient = new minio.Client({
-		endPoint: objectStorageConfig.endPoint,
-		port: objectStorageConfig.port,
-		useSSL: objectStorageConfig.useSSL,
-		accessKey: objectStorageConfig.accessKey,
-		secretKey: objectStorageConfig.secretKey
+		endPoint: process.env.OBJECT_STORAGE_ENDPOINT,
+		port: process.env.OBJECT_STORAGE_PORT,
+		useSSL: process.env.OBJECT_STORAGE_USE_SSL === "true",
+		accessKey: process.env.OBJECT_STORAGE_ACCESS_KEY,
+		secretKey: process.env.OBJECT_STORAGE_SECRET_KEY
 	});
 
-	return new MinioClipStorageModel(minioClient, objectStorageConfig.bucketName);
+	return new MinioClipStorageModel(minioClient, process.env.OBJECT_STORAGE_BUCKET_NAME);
 };

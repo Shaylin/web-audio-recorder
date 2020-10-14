@@ -2,6 +2,8 @@ const fs = require("fs");
 const express = require("express");
 const app = express();
 
+require("dotenv").config();
+
 app.use(express.json());
 app.use(express.static("client/view/"));
 
@@ -16,12 +18,9 @@ const createRecordingTaskRoutes = require("./api/recordingTask/createRecordingTa
 const createAudioSourceRoutes = require("./api/audioSource/createAudioSourceRoutes");
 const createClipStorageRoutes = require("./api/clipStorage/createClipStorageRoutes");
 
-async function main() {
-	let serverConfig = JSON.parse(fs.readFileSync("serverConfig.json", "utf-8"));
-	
-	let objectStorageConfig = serverConfig.objectStorageSettings;
-	let clipStorageModel = createClipStorageModel(objectStorageConfig);
-	if (isObjectStorageEnabled(objectStorageConfig)) {
+async function main() {	
+	let clipStorageModel = createClipStorageModel();
+	if (isObjectStorageEnabled) {
 		createClipStorageRoutes(app, clipStorageModel);
 	}
 
@@ -30,10 +29,10 @@ async function main() {
 	createAudioSourceRoutes(app, audioSourceModel, audioSourceTester);
 
 	let postRecordingAction = (recordingFilename) => {
-		if (!isObjectStorageEnabled(objectStorageConfig)) return;
+		if (!isObjectStorageEnabled) return;
 		console.log(`Performing post recording actions on ${recordingFilename}.`);
 		clipStorageModel.uploadClip(recordingFilename).then(() => {
-			if (serverConfig.deleteClipsAfterPostRecordingActions) {
+			if (process.env.DELETE_CLIPS_AFTERWARDS) {
 				console.log(`Deleting ${recordingFilename}`);
 				fs.unlinkSync(recordingFilename);
 			}
@@ -44,7 +43,7 @@ async function main() {
 	let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel, postRecordingAction);
 	createRecordingTaskRoutes(app, recordingTaskModel, recordingTaskService);
 
-	initApplication(serverConfig.port);
+	initApplication(process.env.PORT);
 }
 
 async function initApplication(port) {
@@ -53,9 +52,8 @@ async function initApplication(port) {
 	});
 }
 
-function isObjectStorageEnabled(objectStorageConfig) {
-	if (!objectStorageConfig) return false;
-	return objectStorageConfig.enabled;
+function isObjectStorageEnabled(){
+	return process.env.OBJECT_STORAGE_ENABLED === "true";
 }
 
 main();

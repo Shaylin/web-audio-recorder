@@ -24,7 +24,23 @@ Builds aren't currently included as part of releases, however artifacts should b
 * To run the built app run `node server.js` inside the build folder.
 
 ### Configuration
+For development, create a `.env` file with the following fields under the src directory. For production, this file must be present in the build directory.
+```
+PORT=9000
+DELETE_CLIPS_AFTERWARDS=false
 
+AUTH_ENABLED=true
+AUTH_DOMAN=your.auth.domain
+AUTH_CLIENT_ID=blabla
+AUTH_CLIENT_SECRET=ssssh
+
+OBJECT_STORAGE_ENABLED=true
+OBJECT_STORAGE_ENDPOINT=sg.somespaces.com
+OBJECT_STORAGE_USE_SSL=true
+OBJECT_STORAGE_ACCESS_KEY=yourStorageAccessKey
+OBJECT_STORAGE_SECRET_KEY=yourSecret
+OBJECT_STORAGE_BUCKET_NAME=yourBucketName
+```
 
 ## TODO:
 * Auth0 backed user authentication
