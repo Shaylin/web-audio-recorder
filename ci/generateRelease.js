@@ -1,7 +1,7 @@
 const childProcess = require("child_process");
 
 function main() {
-    let buildName = process.argv[0];
+    let buildName = process.argv[2];
     console.log(`Generating release for ${buildName}`);
 
     let publishResponse = publishBuildToRegistry(buildName);
