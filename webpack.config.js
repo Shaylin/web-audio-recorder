@@ -23,10 +23,6 @@ module.exports = {
 				{
 					from: "src/client/",
 					to: "client/"
-				},
-				{
-					from: "src/.env",
-					to: "./"
 				}
 			]
 		})
