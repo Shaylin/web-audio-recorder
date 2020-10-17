@@ -16,7 +16,9 @@ The primary goal of this project was to develop a node webapp to be deployed to 
 * FFmpeg - This project depends on having FFmpeg available on your PATH. If you're on a Debian based distro, installing FFmpeg should be as easy as running `sudo apt install ffmpeg`. Windows and MacOS binaries are available here: https://ffmpeg.zeranoe.com/builds/
 
 ### Building
-Builds aren't currently included as part of releases, however artifacts should be available on the latest tag's CI pipeline. For building the project yourself, use the following steps:
+Builds are currently uploaded to the package registry as part of tag releases. These builds use webpack to bundle all depdencies and may be used for production use.
+
+For building the project yourself, use the following steps:
 * Clone the repository or download a zip of the repository and extract it
 * Inside the web-audio-recorder folder, run `npm install`
 * To build, run `npm run build`
