@@ -13,7 +13,7 @@ The primary goal of this project was to develop a node webapp to be deployed to 
 
 ### Software Dependencies 
 * Node.js 12 LTS - While this project may work with earlier versions, the latest Node.js 12 LTS is what it's being developed with.
-* FFmpeg - This project depends on having FFmpeg available on your PATH. If you're on a Debian based distro, installing FFmpeg should be as easy as running `sudo apt install ffmpeg`. Windows and MacOS binaries are available here: https://ffmpeg.zeranoe.com/builds/
+* FFmpeg - This project depends on having FFmpeg available on your PATH. If you're on a Debian based distro, installing FFmpeg should be as easy as running `sudo apt install ffmpeg`. Windows and MacOS binaries are available here: https://ffmpeg.org/download.html
 
 ### Building
 Builds are currently uploaded to the package registry as part of tag releases. These builds use webpack to bundle all depdencies and may be used for production use.
