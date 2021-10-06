@@ -37,30 +37,27 @@ describe("NodePersistRecordingTaskModel", () => {
 	});
 
 	describe("getRecordingTasks", () => {
-		it("Should return an array containing each of the model's recordingTasks", async (done) => {
+		it("Should return an array containing each of the model's recordingTasks", async () => {
 			nodePersistRecordingTaskModel.getRecordingTasks().then((recordingTasks) => {
 				expect(findRecordingTask(recordingTasks, "222")).toEqual(task1);
 				expect(findRecordingTask(recordingTasks, "3")).toEqual(task2);
-				done();
 			});
 		});
 	});
 
 	describe("getRecordingTask", () => {
 		describe("When the model contains the recording task with the given id", () => {
-			it("Should return the recording task with the specified id", async (done) => {
+			it("Should return the recording task with the specified id", async () => {
 				nodePersistRecordingTaskModel.getRecordingTask("3").then((recordingTask) => {
 					expect(recordingTask).toEqual(task2);
-					done();
 				});
 			});
 		});
 
 		describe("When the model does not contain a recording task with the given id", () => {
-			it("Should return null", async (done) => {
+			it("Should return null", async () => {
 				nodePersistRecordingTaskModel.getRecordingTask("asdf").then((recordingTask) => {
 					expect(recordingTask).toBe(null);
-					done();
 				});
 			});
 		});
@@ -76,26 +73,23 @@ describe("NodePersistRecordingTaskModel", () => {
 				duration: 5
 			};
 
-			it("Should update the fields on the recording task with the specified id", async (done) => {
+			it("Should update the fields on the recording task with the specified id", async () => {
 				await nodePersistRecordingTaskModel.updateRecordingTask(updatedTask1);
 
 				nodePersistRecordingTaskModel.getRecordingTask("222").then((recordingTask) => {
 					expect(recordingTask).toEqual(updatedTask1);
-					done();
 				});
 			});
 
-			it("Should return true", async (done) => {
+			it("Should return true", async () => {
 				nodePersistRecordingTaskModel.updateRecordingTask(updatedTask1).then((updateResult) => {
 					expect(updateResult).toBe(true);
-					done();
 				});
 			});
 
-			it("Should update the recording tasks in local storage", async (done) => {
+			it("Should update the recording tasks in local storage", async () => {
 				nodePersistRecordingTaskModel.updateRecordingTask(updatedTask1).then(() => {
 					expect(mockNodePersist.updateItem).toHaveBeenCalled();
-					done();
 				});
 			});
 		});
@@ -109,26 +103,23 @@ describe("NodePersistRecordingTaskModel", () => {
 				duration: 5
 			};
 
-			it("Should not create a new recording task in the model", async (done) => {
+			it("Should not create a new recording task in the model", async () => {
 				await nodePersistRecordingTaskModel.updateRecordingTask(fakeTask);
 
 				nodePersistRecordingTaskModel.getRecordingTask("cba").then((recordingTask) => {
 					expect(recordingTask).toBe(null);
-					done();
 				});
 			});
 
-			it("Should return false", async (done) => {
+			it("Should return false", async () => {
 				nodePersistRecordingTaskModel.updateRecordingTask(fakeTask).then((updateResult) => {
 					expect(updateResult).toBe(false);
-					done();
 				});
 			});
 
-			it("Should not update the recording tasks in local storage", async (done) => {
+			it("Should not update the recording tasks in local storage", async () => {
 				nodePersistRecordingTaskModel.updateRecordingTask(fakeTask).then(() => {
 					expect(mockNodePersist.updateItem).not.toHaveBeenCalled();
-					done();
 				});
 			});
 		});
@@ -150,68 +141,60 @@ describe("NodePersistRecordingTaskModel", () => {
 			duration: 334
 		};
 
-		it("Should add the recording task to the model with a generated id", async (done) => {
+		it("Should add the recording task to the model with a generated id", async () => {
 			await nodePersistRecordingTaskModel.addRecordingTask(taskToAdd);
 
 			nodePersistRecordingTaskModel.getRecordingTask("generatedId").then((recordingTask) => {
 				expect(recordingTask).toEqual(taskToAddWithGeneratedId);
-				done();
 			});
 		});
 
-		it("Should return the recording task that was just added to the model", async (done) => {
+		it("Should return the recording task that was just added to the model", async () => {
 			nodePersistRecordingTaskModel.addRecordingTask(taskToAdd).then((addResult) => {
 				expect(addResult).toEqual(taskToAddWithGeneratedId);
-				done();
 			});
 		});
 
-		it("Should update audio sources in local storage", async (done) => {
-			nodePersistRecordingTaskModel.addRecordingTask(taskToAdd).then((addResult) => {
+		it("Should update audio sources in local storage", async () => {
+			nodePersistRecordingTaskModel.addRecordingTask(taskToAdd).then((_) => {
 				expect(mockNodePersist.updateItem).toHaveBeenCalled();
-				done();
 			});
 		});
 	});
 
 	describe("removeRecordingTask", () => {
 		describe("When the model contains the recording task with the given id", () => {
-			it("Should remove the recording task with the specified id from the model", async (done) => {
+			it("Should remove the recording task with the specified id from the model", async () => {
 				await nodePersistRecordingTaskModel.removeRecordingTask("222");
 
 				nodePersistRecordingTaskModel.getRecordingTask("222").then((recordingTask) => {
 					expect(recordingTask).toBe(null);
-					done();
 				});
 			});
 
-			it("Should return true", async (done) => {
+			it("Should return true", async () => {
 				nodePersistRecordingTaskModel.removeRecordingTask("222").then((removeResult) => {
 					expect(removeResult).toBe(true);
-					done();
 				});
 			});
 
-			it("Should update audio sources in local storage", async (done) => {
+			it("Should update audio sources in local storage", async () => {
 				nodePersistRecordingTaskModel.removeRecordingTask("222").then(() => {
 					expect(mockNodePersist.updateItem).toHaveBeenCalled();
-					done();
 				});
 			});
 		});
 
 		describe("When the model does not contain a recording task with the given id", () => {
-			it("Should return false", async (done) => {
+			it("Should return false", async () => {
 				nodePersistRecordingTaskModel.removeRecordingTask("capoo").then((removeResult) => {
 					expect(removeResult).toBe(false);
-					done();
 				});
 			});
 
-			it("Should not update audio sources in local storage", async (done) => {
+			it("Should not update audio sources in local storage", async () => {
 				nodePersistRecordingTaskModel.removeRecordingTask("capoo").then(() => {
 					expect(mockNodePersist.updateItem).not.toHaveBeenCalled();
-					done();
 				});
 			});
 		});

@@ -48,13 +48,12 @@ describe("MinioClipStorageModel", () => {
 	});
 
 	describe("getClips", () => {
-		it("Should return a promise that resolves to an array of clip objects once the minio stream ends", async (done) => {
+		it("Should return a promise that resolves to an array of clip objects once the minio stream ends", async () => {
 			expect(mockMinioClient.listObjects).not.toHaveBeenCalled();
 
 			minioClipStorageModel.getClips().then((clipObjects) => {
 				expect(mockMinioClient.listObjects).toHaveBeenCalledWith(mockBucketName);
 				expect(clipObjects).toEqual(allClipsWithoutExtras);
-				done();
 			});
 
 			mockObjectStream.emit("data", clip1);
@@ -64,37 +63,34 @@ describe("MinioClipStorageModel", () => {
 	});
 
 	describe("getClipDownloadLink", () => {
-		it("Should return a link for using the presignedGetObject method on the minio client", async (done) => {
+		it("Should return a link for using the presignedGetObject method on the minio client", async () => {
 			expect(mockMinioClient.presignedGetObject).not.toHaveBeenCalled();
 
 			minioClipStorageModel.getClipDownloadLink("Class95-2h04-8-12.ogg").then((downloadLink) => {
 				expect(mockMinioClient.presignedGetObject).toHaveBeenCalledWith(mockBucketName, "Class95-2h04-8-12.ogg");
 				expect(downloadLink).toEqual("http://fakeurl.sg");
-				done();
 			});
 		});
 	});
 
 	describe("uploadClip", () => {
-		it("Should return the promise returned by the minio client by calling fPutObject", async (done) => {
+		it("Should return the promise returned by the minio client by calling fPutObject", async () => {
 			expect(mockMinioClient.fPutObject).not.toHaveBeenCalled();
 
 			minioClipStorageModel.uploadClip("Class95-2h04-8-12.ogg").then((uploadResult) => {
 				expect(mockMinioClient.fPutObject).toHaveBeenCalledWith(mockBucketName, "Class95-2h04-8-12.ogg", "./Class95-2h04-8-12.ogg");
 				expect(uploadResult).toEqual(true);
-				done();
 			});
 		});
 	});
 
 	describe("deleteClip", () => {
-		it("Should return the promise returned by the minio client by calling removeObject", async (done) => {
+		it("Should return the promise returned by the minio client by calling removeObject", async () => {
 			expect(mockMinioClient.removeObject).not.toHaveBeenCalled();
 
 			minioClipStorageModel.deleteClip("Class95-2h04-8-12.ogg").then((deleteResult) => {
 				expect(mockMinioClient.removeObject).toHaveBeenCalledWith(mockBucketName, "Class95-2h04-8-12.ogg");
 				expect(deleteResult).toEqual(false);
-				done();
 			});
 		});
 	});

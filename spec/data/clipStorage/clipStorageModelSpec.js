@@ -30,45 +30,41 @@ describe("ClipStorageModel", () => {
 	});
 
 	describe("getClips", () => {
-		it("Should return the value from calling getClips on the adapter", async (done) => {
+		it("Should return the value from calling getClips on the adapter", async () => {
 			expect(mockClipStorageModelAdapter.getClips).not.toHaveBeenCalled();
 			clipStorageModel.getClips().then((clips) => {
 				expect(mockClipStorageModelAdapter.getClips).toHaveBeenCalled();
 				expect(clips).toEqual(allClips);
-				done();
 			});
 		});
 	});
 
 	describe("getClipDownloadLink", () => {
-		it("Should return the value from calling getClipDownloadLink on the adapter", async (done) => {
+		it("Should return the value from calling getClipDownloadLink on the adapter", async () => {
 			expect(mockClipStorageModelAdapter.getClipDownloadLink).not.toHaveBeenCalled();
 			clipStorageModel.getClipDownloadLink("Class95-2h04-8-12.ogg").then((downloadUrl) => {
 				expect(mockClipStorageModelAdapter.getClipDownloadLink).toHaveBeenCalledWith("Class95-2h04-8-12.ogg");
 				expect(downloadUrl).toEqual("http://somedownloadlink.com");
-				done();
 			});
 		});
 	});
 
 	describe("uploadClip", () => {
-		it("Should return the value from calling uploadClip on the adapter", async (done) => {
+		it("Should return the value from calling uploadClip on the adapter", async () => {
 			expect(mockClipStorageModelAdapter.uploadClip).not.toHaveBeenCalled();
 			clipStorageModel.uploadClip("Class95-2h04-8-12.ogg").then((uploadResult) => {
 				expect(mockClipStorageModelAdapter.uploadClip).toHaveBeenCalledWith("Class95-2h04-8-12.ogg");
 				expect(uploadResult).toEqual(true);
-				done();
 			});
 		});
 	});
 
 	describe("deleteClip", () => {
-		it("Should return the value from calling deleteClip on the adapter", async (done) => {
+		it("Should return the value from calling deleteClip on the adapter", async () => {
 			expect(mockClipStorageModelAdapter.deleteClip).not.toHaveBeenCalled();
 			clipStorageModel.deleteClip("Money98-8h30-2-12.ogg").then((deleteResult) => {
 				expect(mockClipStorageModelAdapter.deleteClip).toHaveBeenCalledWith("Money98-8h30-2-12.ogg");
 				expect(deleteResult).toEqual(false);
-				done();
 			});
 		});
 	});

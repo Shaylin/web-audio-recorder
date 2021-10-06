@@ -31,30 +31,27 @@ describe("NodePersistAudioSourceModel", () => {
 	});
 
 	describe("getAudioSources", () => {
-		it("Should return an array containing each of the model's audio sources", async (done) => {
+		it("Should return an array containing each of the model's audio sources", async () => {
 			nodePersistAudioSourceModel.getAudioSources().then((audioSources) => {
 				expect(findAudioSource(audioSources, class95)).toEqual(class95);
 				expect(findAudioSource(audioSources, money98)).toEqual(money98);
-				done();
 			});
 		});
 	});
 
 	describe("getAudioSources", () => {
 		describe("When the model contains a audio source with the specified name", () => {
-			it("Should return the audio source object with the specified name", async (done) => {
+			it("Should return the audio source object with the specified name", async () => {
 				nodePersistAudioSourceModel.getAudioSource("Class95").then((audioSource) => {
 					expect(audioSource).toEqual(class95);
-					done();
 				});
 			});
 		});
 
 		describe("When the model does not contain a audio source with the specified name", () => {
-			it("Should return null", async (done) => {
+			it("Should return null", async () => {
 				nodePersistAudioSourceModel.getAudioSource("Yes933").then((audioSource) => {
 					expect(audioSource).toBe(null);
-					done();
 				});
 			});
 		});
@@ -62,51 +59,45 @@ describe("NodePersistAudioSourceModel", () => {
 
 	describe("updateAudioSource", () => {
 		describe("When the model contains a audio source with the specified name", () => {
-			it("Should update the audio source object with the specified name", async (done) => {
+			it("Should update the audio source object with the specified name", async () => {
 				await nodePersistAudioSourceModel.updateAudioSource("Class95", "http://newlink");
 
 				nodePersistAudioSourceModel.getAudioSource("Class95").then((audioSource) => {
 					expect(audioSource.url).toEqual("http://newlink");
-					done();
 				});
 			});
 
-			it("Should return true", async (done) => {
+			it("Should return true", async () => {
 				nodePersistAudioSourceModel.updateAudioSource("Class95", "http://newlink").then((updateResult) => {
 					expect(updateResult).toBe(true);
-					done();
 				});
 			});
 
-			it("Should update audio sources in local storage", async (done) => {
+			it("Should update audio sources in local storage", async () => {
 				nodePersistAudioSourceModel.updateAudioSource("Class95", "http://newlink").then(() => {
 					expect(mockNodePersist.updateItem).toHaveBeenCalled();
-					done();
 				});
 			});
 		});
 
 		describe("When the model does not contain a audio source with the specified name", () => {
-			it("Should not create a new audio source object in the model", async (done) => {
+			it("Should not create a new audio source object in the model", async () => {
 				await nodePersistAudioSourceModel.updateAudioSource("CNA958", "http://newlink");
 
 				nodePersistAudioSourceModel.getAudioSource("CNA958").then((audioSource) => {
 					expect(audioSource).toBe(null);
-					done();
 				});
 			});
 
-			it("Should return false", async (done) => {
+			it("Should return false", async () => {
 				nodePersistAudioSourceModel.updateAudioSource("Class999", "http://newlink").then((updateResult) => {
 					expect(updateResult).toBe(false);
-					done();
 				});
 			});
 
-			it("Should not update audio sources in local storage", async (done) => {
+			it("Should not update audio sources in local storage", async () => {
 				nodePersistAudioSourceModel.updateAudioSource("Class999", "http://newlink").then(() => {
 					expect(mockNodePersist.updateItem).not.toHaveBeenCalled();
-					done();
 				});
 			});
 		});
@@ -114,51 +105,45 @@ describe("NodePersistAudioSourceModel", () => {
 
 	describe("addAudioSource", () => {
 		describe("When the model does not contain a audio source with the specified name", () => {
-			it("Should add the audio source object to the model", async (done) => {
+			it("Should add the audio source object to the model", async () => {
 				await nodePersistAudioSourceModel.addAudioSource("Yes933", "http://Yes933.com");
 
 				nodePersistAudioSourceModel.getAudioSource("Yes933").then((audioSource) => {
 					expect(audioSource.url).toEqual("http://Yes933.com");
-					done();
 				});
 			});
 
-			it("Should return the audio source that was added to the model ", async (done) => {
+			it("Should return the audio source that was added to the model ", async () => {
 				nodePersistAudioSourceModel.addAudioSource("Yes933", "http://Yes933.com").then((addResult) => {
 					expect(addResult).toEqual({name: "Yes933", url: "http://Yes933.com"});
-					done();
 				});
 			});
 
-			it("Should update audio sources in local storage", async (done) => {
+			it("Should update audio sources in local storage", async () => {
 				nodePersistAudioSourceModel.addAudioSource("Yes933", "http://Yes933.com").then(() => {
 					expect(mockNodePersist.updateItem).toHaveBeenCalled();
-					done();
 				});
 			});
 		});
 
 		describe("When the model already contains a audio source with the specified name", () => {
-			it("Should update the audio source object in the model", async (done) => {
+			it("Should update the audio source object in the model", async () => {
 				await nodePersistAudioSourceModel.addAudioSource("Class95", "http://Yes933.com");
 
 				nodePersistAudioSourceModel.getAudioSource("Class95").then((audioSource) => {
 					expect(audioSource.url).toEqual("http://Yes933.com");
-					done();
 				});
 			});
 
-			it("Should return the audio source that was updated in the model ", async (done) => {
+			it("Should return the audio source that was updated in the model ", async () => {
 				nodePersistAudioSourceModel.addAudioSource("Class95", "http://Yes933.com").then((addResult) => {
 					expect(addResult).toEqual({name: "Class95", url: "http://Yes933.com"});
-					done();
 				});
 			});
 
-			it("Should update audio sources in local storage", async (done) => {
+			it("Should update audio sources in local storage", async () => {
 				nodePersistAudioSourceModel.addAudioSource("Class95", "http://Yes933.com").then(() => {
 					expect(mockNodePersist.updateItem).toHaveBeenCalled();
-					done();
 				});
 			});
 		});
@@ -166,49 +151,44 @@ describe("NodePersistAudioSourceModel", () => {
 
 	describe("removeAudioSource", () => {
 		describe("When the mode does not contain a audio source with the given name", () => {
-			it("Should return false", async (done) => {
+			it("Should return false", async () => {
 				nodePersistAudioSourceModel.removeAudioSource("Yes933").then((removeResult) => {
 					expect(removeResult).toBe(false);
-					done();
 				});
 			});
 
-			it("Should not update audio sources in local storage", async (done) => {
+			it("Should not update audio sources in local storage", async () => {
 				nodePersistAudioSourceModel.removeAudioSource("Yes933").then(() => {
 					expect(mockNodePersist.updateItem).not.toHaveBeenCalled();
-					done();
 				});
 			});
 		});
 
 		describe("When the model contains a audio source with the given name", () => {
-			it("Should remove the audio source from the model", async (done) => {
+			it("Should remove the audio source from the model", async () => {
 				await nodePersistAudioSourceModel.removeAudioSource("Class95");
 
 				nodePersistAudioSourceModel.getAudioSource("Class95").then((audioSource) => {
 					expect(audioSource).toBe(null);
-					done();
 				});
 			});
 
-			it("Should return true", async (done) => {
+			it("Should return true", async () => {
 				nodePersistAudioSourceModel.removeAudioSource("Class95").then((removeResult) => {
 					expect(removeResult).toBe(true);
-					done();
 				});
 			});
 
-			it("Should update audio sources in local storage", async (done) => {
+			it("Should update audio sources in local storage", async () => {
 				nodePersistAudioSourceModel.removeAudioSource("Class95").then(() => {
 					expect(mockNodePersist.updateItem).toHaveBeenCalled();
-					done();
 				});
 			});
 		});
 	});
 
 	function findAudioSource(array, audioSource) {
-		return array.find((element) => element.name == audioSource.name && element.url == audioSource.url);
+		return array.find((element) => element.name === audioSource.name && element.url === audioSource.url);
 	}
 
 	function getMockNodePersist() {

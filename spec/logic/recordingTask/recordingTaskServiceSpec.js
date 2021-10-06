@@ -115,7 +115,7 @@ describe("RecordingTaskService", () => {
 					});
 				});
 
-				it("Should mark the task as active while recording and perform post recording actions when done", async (done) => {
+				it("Should mark the task as active while recording and perform post recording actions when done", async () => {
 					var mockedDate = new Date("December 17, 2020 20:00:00");
 					jasmine.clock().mockDate(mockedDate);
 
@@ -128,7 +128,6 @@ describe("RecordingTaskService", () => {
 					recordingPromise.then(() => {
 						//TODO: Figure out how to ensure post actions are complete
 						//expect(mockPostRecordingAction).toHaveBeenCalledWith("recordedClip.ogg");
-						done();
 					});
 
 					recordingPromiseResolve("recordedClip.ogg");
