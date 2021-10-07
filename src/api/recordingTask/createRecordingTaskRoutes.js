@@ -83,7 +83,7 @@ module.exports = (app, recordingTaskModel, recordingTaskService) => {
 	/**
 	* Delete a recording task stored in the app.
 	* @param {String} id The id of the audio clip to delete.
-	* @returns {Boolean} Whether or not the deletion was sucessful.
+	* @returns {Boolean} Whether or not the deletion was successful.
 	* If an audio clip with the given name cannot be found in the app, a 404 error will be returned.
 	*/
 	app.delete("/api/recordingTasks/:id", async (req, res) => {

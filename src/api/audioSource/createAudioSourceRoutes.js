@@ -59,7 +59,7 @@ module.exports = (app, audioSourceModel, audioSourceTester) => {
 	});
 
 	/**
-	* Test the connnection to an existing audio source stored in the app.
+	* Test the connection to an existing audio source stored in the app.
 	* @param {String} name The name of the audio source to test as part of the request endpoint.
 	* @returns {Boolean} Whether or not the connection to the audio source was successful. 
 	* If an audio source with the given name cannot be found in the app, a 404 error will be returned.
@@ -80,7 +80,7 @@ module.exports = (app, audioSourceModel, audioSourceTester) => {
 	/**
 	* Delete an existing audio source stored in the app.
 	* @param {String} name The name of the audio source to delete.
-	* @returns {Boolean} Whether or not the deletion was sucessful.
+	* @returns {Boolean} Whether or not the deletion was successful.
 	* If an audio source with the given name cannot be found in the app, a 404 error will be returned.
 	*/
 	app.delete("/api/audioSources/:name", async (req, res) => {

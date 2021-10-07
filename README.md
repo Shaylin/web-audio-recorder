@@ -34,6 +34,8 @@ AUTH_ENABLED=true
 AUTH_DOMAN=your.auth.domain
 AUTH_CLIENT_ID=blabla
 AUTH_CLIENT_SECRET=ssssh
+SESSION_SECRET=generatedSessionSecret - node -e "console.log(crypto.randomBytes(32).toString('hex'))"
+AUTH0_CALLBACK_URL=http://localhost:3000/callback
 
 OBJECT_STORAGE_ENABLED=true
 OBJECT_STORAGE_ENDPOINT=sg.somespaces.com

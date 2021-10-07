@@ -1,4 +1,5 @@
 const childProcess = require("child_process");
+const ffmpegPath = require("ffmpeg-static");
 
 module.exports = function (recordingTask, url) {
 	return new Promise((resolve, reject) => {
@@ -7,7 +8,7 @@ module.exports = function (recordingTask, url) {
 
 		console.log(`Starting recording for ${recordingName}`);
 
-		childProcess.exec(`ffmpeg -i ${url} -ac 1 -b:a 64K -t ${durationInSeconds} ${recordingName}`,
+		childProcess.exec(`${ffmpegPath} -i ${url} -ac 1 -b:a 64K -t ${durationInSeconds} ${recordingName}`,
 			{ encoding: "utf8" },
 			(error) => {
 				if (error && error.code) {
