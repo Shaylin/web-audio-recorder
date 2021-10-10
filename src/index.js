@@ -50,6 +50,8 @@ const strategy = new Auth0Strategy(
  * App Configuration
  */
 app.use(express.json());
+app.set("view engine", "pug");
+app.set("views", "client/view/");
 app.use(express.static("client/view/"));
 
 app.use(expressSession(session));
@@ -64,6 +66,10 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((user, done) => {
 	done(null, user);
+});
+
+app.get("/", (req, res) => {
+	res.render("index", { title: "Home" });
 });
 
 app.use("/", authRouter);
@@ -110,7 +116,7 @@ async function main() {
 	initApplication(process.env.PORT);
 }
 
-async function initApplication(port) {
+function initApplication(port) {
 	app.listen(port, () => {
 		console.log(`App listening at http://localhost:${port}`);
 	});
