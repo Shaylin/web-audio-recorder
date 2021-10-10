@@ -1,0 +1,7 @@
+ci
+spec
+src
+*.json
+*.yml
+*.js
+.idea

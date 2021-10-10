@@ -17,9 +17,7 @@ module.exports = {
 		__dirname: false
 	},
 	externals: [
-		nodeExternals({
-			allowlist: ["pug"]
-		})
+		nodeExternals()
 	],
 	plugins: [
 		new webpack.BannerPlugin({banner: "#!/usr/bin/env node", raw: true}),
@@ -32,4 +30,4 @@ module.exports = {
 			]
 		})
 	]
-}
+};
