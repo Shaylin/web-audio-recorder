@@ -1,68 +1,68 @@
 module.exports = class NodePersistRecordingTaskModel {
-	async init(storageKey, storage, uuidGenerator) {
-		this.storageKey = storageKey;
-		this.storage = storage;
-		this.uuidGenerator = uuidGenerator;
+    async init(storageKey, storage, uuidGenerator) {
+        this.storageKey = storageKey;
+        this.storage = storage;
+        this.uuidGenerator = uuidGenerator;
 
-		const storedRecordingTasks = await this.storage.get(this.storageKey);
+        const storedRecordingTasks = await this.storage.get(this.storageKey);
 
-		this.recordingTasks = new Map();
+        this.recordingTasks = new Map();
 
-		if (!!storedRecordingTasks && storedRecordingTasks.length > 0) {
-			storedRecordingTasks.forEach((recordingTask) => {
-				this.recordingTasks.set(recordingTask.id, recordingTask);
-			});
-		}
-	}
+        if (!!storedRecordingTasks && storedRecordingTasks.length > 0) {
+            storedRecordingTasks.forEach((recordingTask) => {
+                this.recordingTasks.set(recordingTask.id, recordingTask);
+            });
+        }
+    }
 
-	async getRecordingTasks() {
-		let recordingTaskObjects = [];
+    async getRecordingTasks() {
+        let recordingTaskObjects = [];
 
-		this.recordingTasks.forEach((value) => {
-			recordingTaskObjects.push(value);
-		});
+        this.recordingTasks.forEach((value) => {
+            recordingTaskObjects.push(value);
+        });
 
-		return recordingTaskObjects;
-	}
+        return recordingTaskObjects;
+    }
 
-	async getRecordingTask(id) {
-		if (!this.recordingTasks.has(id)) return null;
+    async getRecordingTask(id) {
+        if (!this.recordingTasks.has(id)) return null;
 
-		return this.recordingTasks.get(id);
-	}
+        return this.recordingTasks.get(id);
+    }
 
-	async updateRecordingTask(recordingTask) {
-		if (!this.recordingTasks.has(recordingTask.id)) return false;
+    async updateRecordingTask(recordingTask) {
+        if (!this.recordingTasks.has(recordingTask.id)) return false;
 
-		this.recordingTasks.set(recordingTask.id, recordingTask);
+        this.recordingTasks.set(recordingTask.id, recordingTask);
 
-		let recordingTasks = await this.getRecordingTasks();
-		await this.storage.updateItem(this.storageKey, recordingTasks);
+        let recordingTasks = await this.getRecordingTasks();
+        await this.storage.updateItem(this.storageKey, recordingTasks);
 
-		return true;
-	}
+        return true;
+    }
 
-	async addRecordingTask(recordingTask) {
-		let uuid = this.uuidGenerator();
-		let recordingTaskToAdd = {id: uuid};
-		Object.assign(recordingTaskToAdd, recordingTask);
+    async addRecordingTask(recordingTask) {
+        let uuid = this.uuidGenerator();
+        let recordingTaskToAdd = {id: uuid};
+        Object.assign(recordingTaskToAdd, recordingTask);
 
-		this.recordingTasks.set(uuid, recordingTaskToAdd);
+        this.recordingTasks.set(uuid, recordingTaskToAdd);
 
-		let recordingTasks = await this.getRecordingTasks();
-		await this.storage.updateItem(this.storageKey, recordingTasks);
+        let recordingTasks = await this.getRecordingTasks();
+        await this.storage.updateItem(this.storageKey, recordingTasks);
 
-		return recordingTaskToAdd;
-	}
+        return recordingTaskToAdd;
+    }
 
-	async removeRecordingTask(id) {
-		if (!this.recordingTasks.has(id)) return false;
+    async removeRecordingTask(id) {
+        if (!this.recordingTasks.has(id)) return false;
 
-		this.recordingTasks.delete(id);
+        this.recordingTasks.delete(id);
 
-		let recordingTasks = await this.getRecordingTasks();
-		await this.storage.updateItem(this.storageKey, recordingTasks);
+        let recordingTasks = await this.getRecordingTasks();
+        await this.storage.updateItem(this.storageKey, recordingTasks);
 
-		return true;
-	}
+        return true;
+    }
 };
