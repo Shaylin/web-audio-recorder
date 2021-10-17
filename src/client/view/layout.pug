@@ -11,12 +11,8 @@ html
             div.NavigationMenu(class="column menu")
                 ul.MenuList(class="menu-list")
                     li
-                        if isAuthenticated
-                            a(href="/user")
-                                div.NavButton Just dive in!
-                        else
-                            a(href="/login")
-                                div.NavButton Log in
+                        a(href="/login")
+                            div.NavButton Just dive in!
                     li
                         a Option2
             block layout-content

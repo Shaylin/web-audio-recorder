@@ -74,6 +74,14 @@ app.get("/", (req, res) => {
 
 app.use("/", authRouter);
 
+//TODO: Refactor
+app.all("*", (request, response, next) => {
+    if (request.user) return next();
+
+    response.status(500);
+    response.send("Authentication error. Please log in.");
+});
+
 /**
  * App Startup
  */

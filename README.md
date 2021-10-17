@@ -30,10 +30,10 @@ For development, create a `.env` file with the following fields under the src di
 PORT=9000
 DELETE_CLIPS_AFTERWARDS=false
 
-AUTH_ENABLED=true
-AUTH_DOMAN=your.auth.domain
-AUTH_CLIENT_ID=blabla
-AUTH_CLIENT_SECRET=ssssh
+AUTH0_ENABLED=true
+AUTH0_DOMAN=your.auth.domain
+AUTH0_CLIENT_ID=blabla
+AUTH0_CLIENT_SECRET=ssssh
 SESSION_SECRET=generatedSessionSecret - node -e "console.log(crypto.randomBytes(32).toString('hex'))"
 AUTH0_CALLBACK_URL=http://localhost:3000/callback
 
@@ -46,6 +46,4 @@ OBJECT_STORAGE_BUCKET_NAME=yourBucketName
 ```
 
 ## TODO:
-* Auth0 backed user authentication
-* A simple client front end
 * Configuration docs

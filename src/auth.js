@@ -1,14 +1,8 @@
-/**
- * Required External Modules
- */
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const querystring = require("querystring");
 
-/**
- * Routes Definitions
- */
 router.get(
     "/login",
     passport.authenticate("auth0", {
@@ -60,7 +54,4 @@ router.get("/logout", (req, res) => {
     res.redirect(logoutURL);
 });
 
-/**
- * Module Exports
- */
 module.exports = router;
