@@ -12,6 +12,8 @@ require("dotenv").config();
 
 const authRouter = require("./auth");
 
+const createViewRenderingRoutes = require("./api/viewRendering/createViewRenderingRoutes");
+
 /**
  * App Variables
  */
@@ -68,19 +70,10 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
-app.get("/", (req, res) => {
-    res.render("index", { title: "Home" });
-});
+createViewRenderingRoutes(app);
 
 app.use("/", authRouter);
 
-//TODO: Refactor
-app.all("*", (request, response, next) => {
-    if (request.user) return next();
-
-    response.status(500);
-    response.send("Authentication error. Please log in.");
-});
 
 /**
  * App Startup

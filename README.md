@@ -46,4 +46,5 @@ OBJECT_STORAGE_BUCKET_NAME=yourBucketName
 ```
 
 ## TODO:
+* Logging
 * Configuration docs

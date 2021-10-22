@@ -8,11 +8,21 @@ html
         link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css")
     body
         div#root(class="columns")
-            div.NavigationMenu(class="column menu")
-                ul.MenuList(class="menu-list")
-                    li
-                        a(href="/login")
-                            div.NavButton Just dive in!
-                    li
-                        a Option2
-            block layout-content
+            div(style="width: 105vw; height: 105vh; position: fixed; z-index: -1; background-color: #DAF7A677;")
+            if isAuthenticated
+                div.NavigationMenu(class="column menu", style="background-color:  gray;")
+                    ul.MenuList(class="menu-list")
+                        li
+                            a(href="/audioSources")
+                                div.NavButton Manage Audio Sources
+                        li
+                            a(href="/logout")
+                                div.NavButton Log Out
+                block layout-content
+            else
+                section(class="hero is-info is-medium column")
+                    div(class="hero-body")
+                        div
+                            p(class="title") Web Audio Recorder
+                            button(class="button is-danger")
+                                a(href="/login") Please Log In

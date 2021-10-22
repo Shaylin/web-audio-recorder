@@ -54,4 +54,14 @@ router.get("/logout", (req, res) => {
     res.redirect(logoutURL);
 });
 
+router.all("*", (request, response, next) => {
+    if (request.user) {
+        return next();
+    }
+
+    response.status(500);
+    response.send("Authentication error. Please log in.");
+});
+
+
 module.exports = router;
