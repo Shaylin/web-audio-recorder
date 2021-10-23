@@ -6,23 +6,31 @@ html
         meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
         title #{title}
         link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css")
+        script(src='./index.js')
     body
-        div#root(class="columns")
-            div(style="width: 105vw; height: 105vh; position: fixed; z-index: -1; background-color: #DAF7A677;")
+        if isAuthenticated
+            nav(class="navbar", role="navigation", aria-label="main navigation")
+                div(class="navbar-brand")
+                    a(class="navbar-item")
+                      <img src="./logo.png">
+                    a(role="button", class="navbar-burger", aria-label="menu", aria-expanded="false", data-target="recorderNavbar")
+                        span(aria-hidden="true")
+                        span(aria-hidden="true")
+                        span(aria-hidden="true")
+                div(id="recorderNavbar", class="navbar-menu")
+                    div(class="navbar-start is-grouped")
+                        a(class="navbar-item button is-light is-success", href="/audioSources", style="margin-top: 4px") Manage Audio Sources
+                        a(class="navbar-item button is-light is-warning", href="/recordingTasks", style="margin-top: 4px") Manage Recording Tasks
+                        a(class="navbar-item button is-light is-link", href="/clipStorage", style="margin-top: 4px") Download Recorded Clips
+                    div(class="navbar-end")
+                        a(class="navbar-item button is-light is-danger", href="/logout", style="margin-top: 4px; margin-right: 4px") Log Out
+        div#root
             if isAuthenticated
-                div.NavigationMenu(class="column menu", style="background-color:  gray;")
-                    ul.MenuList(class="menu-list")
-                        li
-                            a(href="/audioSources")
-                                div.NavButton Manage Audio Sources
-                        li
-                            a(href="/logout")
-                                div.NavButton Log Out
                 block layout-content
             else
                 section(class="hero is-info is-medium column")
                     div(class="hero-body")
                         div
-                            p(class="title") Web Audio Recorder
+                            img(src="./logoInverted.png", style="display: block; height: 112px; margin-bottom: 32px")
                             button(class="button is-danger")
                                 a(href="/login") Please Log In
