@@ -7,12 +7,13 @@ html
         title #{title}
         link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css")
         script(src='./index.js')
+        block layout-specific-headers
     body
         if isAuthenticated
             nav(class="navbar", role="navigation", aria-label="main navigation")
                 div(class="navbar-brand")
                     a(class="navbar-item")
-                      <img src="./logo.png">
+                      img(src="./logo.png")
                     a(role="button", class="navbar-burger", aria-label="menu", aria-expanded="false", data-target="recorderNavbar")
                         span(aria-hidden="true")
                         span(aria-hidden="true")
@@ -31,6 +32,6 @@ html
                 section(class="hero is-info is-medium column")
                     div(class="hero-body")
                         div
-                            img(src="./logoInverted.png", style="display: block; height: 112px; margin-bottom: 32px")
+                            img(src="./logoInverted.png", style="display: block; width: 90%; max-width: 640px; margin-bottom: 32px")
                             button(class="button is-danger")
                                 a(href="/login") Please Log In

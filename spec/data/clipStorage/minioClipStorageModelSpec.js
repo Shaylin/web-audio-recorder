@@ -1,4 +1,4 @@
-const MinioClipStorageModel = require("../../../src/data/clipStorage/minioClipStorageModel");
+const MinioClipStorageModel = require("../../../src/model/clipStorage/minioClipStorageModel");
 const Stream = require("stream");
 
 describe("MinioClipStorageModel", () => {

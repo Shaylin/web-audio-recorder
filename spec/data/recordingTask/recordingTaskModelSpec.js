@@ -1,4 +1,4 @@
-const RecordingTaskModel = require("../../../src/data/recordingTask/recordingTaskModel");
+const RecordingTaskModel = require("../../../src/model/recordingTask/recordingTaskModel");
 
 describe("RecordingTaskModel", () => {
     let recordingTaskModel = null;

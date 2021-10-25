@@ -1,4 +1,4 @@
-const NodePersistAudioSourceModel = require("../../../src/data/audioSource/nodePersistAudioSourceModel");
+const NodePersistAudioSourceModel = require("../../../src/model/audioSource/nodePersistAudioSourceModel");
 
 describe("NodePersistAudioSourceModel", () => {
     let nodePersistAudioSourceModel = null;

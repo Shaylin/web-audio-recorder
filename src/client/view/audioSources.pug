@@ -1,5 +1,17 @@
 extends layout
 
+block layout-specific-headers
+    script(src='./audioSources.js')
+
 block layout-content
-    div.View.WelcomeView
-        div This is where the audio sources will live
+    div.AudioSources(class="container", style="padding-top: 16px;")
+        nav(class="panel is-info")
+            p(class="panel-heading") Audio Sources
+            div(class="panel-block", style="justify-content: space-between;")
+                p YES993
+                button(class="button", onclick="onAudioSourcedEditClicked(this.parentNode.innerText)")
+                    span(class="icon")
+                      img(src="./edit.svg")
+            div(class="panel-block") MONEY98
+            div(class="panel-block")
+                button(class="button is-link is-fullwidth") Add New Audio Source

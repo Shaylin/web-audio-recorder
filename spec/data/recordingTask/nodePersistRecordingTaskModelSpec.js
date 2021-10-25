@@ -1,4 +1,4 @@
-const NodePersistRecordingTaskModel = require("../../../src/data/recordingTask/nodePersistRecordingTaskModel");
+const NodePersistRecordingTaskModel = require("../../../src/model/recordingTask/nodePersistRecordingTaskModel");
 
 describe("NodePersistRecordingTaskModel", () => {
     let nodePersistRecordingTaskModel = null;

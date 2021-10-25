@@ -1,6 +1,3 @@
-/**
- * Required External Modules
- */
 const fs = require("fs");
 const express = require("express");
 
@@ -10,13 +7,8 @@ const Auth0Strategy = require("passport-auth0");
 
 require("dotenv").config();
 
-const authRouter = require("./auth");
-
 const createViewRenderingRoutes = require("./api/viewRendering/createViewRenderingRoutes");
 
-/**
- * App Variables
- */
 const app = express();
 
 /**
@@ -72,30 +64,27 @@ passport.deserializeUser((user, done) => {
 
 createViewRenderingRoutes(app);
 
-app.use("/", authRouter);
-
+app.use("/", require("./api/authentication/authenticationRouter"));
 
 /**
  * App Startup
  */
-const createRecordingTaskModel = require("./data/recordingTask/createRecordingTaskModel");
-const createAudioSourceModel = require("./data/audioSource/createAudioSourceModel");
-const createClipStorageModel = require("./data/clipStorage/createClipStorageModel");
+const ModelFactory = require("./model/factory/modelFactory");
 
-const AudioSourceTester = require("./logic/audioSource/audioSourceTester");
-const createRecordingTaskService = require("./logic/recordingTask/createRecordingTaskService");
+const AudioSourceTester = require("./service/audioSource/audioSourceTesterService");
+const createRecordingTaskService = require("./service/recordingTask/createRecordingTaskService");
 
 const createRecordingTaskRoutes = require("./api/recordingTask/createRecordingTaskRoutes");
 const createAudioSourceRoutes = require("./api/audioSource/createAudioSourceRoutes");
 const createClipStorageRoutes = require("./api/clipStorage/createClipStorageRoutes");
 
 async function main() {
-    let clipStorageModel = createClipStorageModel();
+    let clipStorageModel = await ModelFactory.getClipStorageModel();
     if (isObjectStorageEnabled) {
         createClipStorageRoutes(app, clipStorageModel);
     }
 
-    let audioSourceModel = await createAudioSourceModel();
+    let audioSourceModel = await ModelFactory.getAudioSourceModel();
     let audioSourceTester = new AudioSourceTester();
     createAudioSourceRoutes(app, audioSourceModel, audioSourceTester);
 
@@ -110,7 +99,7 @@ async function main() {
         });
     };
 
-    let recordingTaskModel = await createRecordingTaskModel();
+    let recordingTaskModel = await ModelFactory.getRecordingTaskModel();
     let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel, postRecordingAction);
     createRecordingTaskRoutes(app, recordingTaskModel, recordingTaskService);
 

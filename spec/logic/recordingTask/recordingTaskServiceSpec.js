@@ -1,4 +1,4 @@
-const RecordingTaskService = require("../../../src/logic/recordingTask/recordingTaskService");
+const RecordingTaskService = require("../../../src/service/recordingTask/recordingTaskService");
 
 describe("RecordingTaskService", () => {
     let recordingTaskService = null;

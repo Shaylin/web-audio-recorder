@@ -1,4 +1,4 @@
-const ClipStorageModel = require("../../../src/data/clipStorage/clipStorageModel");
+const ClipStorageModel = require("../../../src/model/clipStorage/clipStorageModel");
 
 describe("ClipStorageModel", () => {
     let clipStorageModel = null;

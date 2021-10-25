@@ -1,4 +1,4 @@
-const AudioSourceModel = require("../../../src/data/audioSource/audioSourceModel");
+const AudioSourceModel = require("../../../src/model/audioSource/audioSourceModel");
 
 describe("AudioSourceModel", () => {
     let audioSourceModel = null;
