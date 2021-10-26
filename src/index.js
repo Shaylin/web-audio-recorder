@@ -1,19 +1,9 @@
-const fs = require("fs");
 const express = require("express");
-
 const expressSession = require("express-session");
 const passport = require("passport");
 const Auth0Strategy = require("passport-auth0");
-
 require("dotenv").config();
 
-const createViewRenderingRoutes = require("./api/viewRendering/createViewRenderingRoutes");
-
-const app = express();
-
-/**
- * Session Configuration
- */
 const session = {
     secret: process.env.SESSION_SECRET,
     cookie: {},
@@ -21,14 +11,7 @@ const session = {
     saveUninitialized: false
 };
 
-if (app.get("env") === "production") {
-    session.cookie.secure = true;
-}
-
-/**
- * Passport Configuration
- */
-const strategy = new Auth0Strategy(
+const authenticationStrategy = new Auth0Strategy(
     {
         domain: process.env.AUTH0_DOMAIN,
         clientID: process.env.AUTH0_CLIENT_ID,
@@ -40,9 +23,12 @@ const strategy = new Auth0Strategy(
     }
 );
 
-/**
- * App Configuration
- */
+const app = express();
+
+if (app.get("env") === "production") {
+    session.cookie.secure = true;
+}
+
 app.use(express.json());
 app.set("view engine", "pug");
 app.set("views", "client/view/");
@@ -50,7 +36,7 @@ app.use(express.static("client/view/"));
 
 app.use(expressSession(session));
 
-passport.use(strategy);
+passport.use(authenticationStrategy);
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -62,46 +48,35 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
-createViewRenderingRoutes(app);
-
-app.use("/", require("./api/authentication/authenticationRouter"));
-
 /**
  * App Startup
  */
-const ModelFactory = require("./model/factory/modelFactory");
-
-const AudioSourceTester = require("./service/audioSource/audioSourceTesterService");
-const createRecordingTaskService = require("./service/recordingTask/createRecordingTaskService");
+const modelFactory = require("./model/factory/modelFactory");
+const serviceFactory = require("./service/factory/serviceFactory");
 
 const createRecordingTaskRoutes = require("./api/recordingTask/createRecordingTaskRoutes");
 const createAudioSourceRoutes = require("./api/audioSource/createAudioSourceRoutes");
 const createClipStorageRoutes = require("./api/clipStorage/createClipStorageRoutes");
+const createViewRenderingRoutes = require("./api/viewRendering/createViewRenderingRoutes");
 
 async function main() {
-    let clipStorageModel = await ModelFactory.getClipStorageModel();
+    let clipStorageModel = await modelFactory.getClipStorageModel();
     if (isObjectStorageEnabled) {
+        //TODO: Eventually configure these to use the factories directly
         createClipStorageRoutes(app, clipStorageModel);
     }
 
-    let audioSourceModel = await ModelFactory.getAudioSourceModel();
-    let audioSourceTester = new AudioSourceTester();
+    let audioSourceModel = await modelFactory.getAudioSourceModel();
+    let audioSourceTester = await serviceFactory.getAudioSourceTesterService();
     createAudioSourceRoutes(app, audioSourceModel, audioSourceTester);
 
-    let postRecordingAction = (recordingFilename) => {
-        if (!isObjectStorageEnabled) return;
-        console.log(`Performing post recording actions on ${recordingFilename}.`);
-        clipStorageModel.uploadClip(recordingFilename).then(() => {
-            if (process.env.DELETE_CLIPS_AFTERWARDS) {
-                console.log(`Deleting ${recordingFilename}`);
-                fs.unlinkSync(recordingFilename);
-            }
-        });
-    };
-
-    let recordingTaskModel = await ModelFactory.getRecordingTaskModel();
-    let recordingTaskService = createRecordingTaskService(recordingTaskModel, audioSourceModel, postRecordingAction);
+    let recordingTaskModel = await modelFactory.getRecordingTaskModel();
+    let recordingTaskService = await serviceFactory.getRecordingTaskService();
     createRecordingTaskRoutes(app, recordingTaskModel, recordingTaskService);
+
+    createViewRenderingRoutes(app, modelFactory, serviceFactory);
+
+    app.use("/", require("./api/authentication/authenticationRouter"));
 
     initApplication(process.env.PORT);
 }

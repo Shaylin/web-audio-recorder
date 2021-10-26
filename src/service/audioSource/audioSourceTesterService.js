@@ -1,13 +1,16 @@
 const https = require("https");
 const http = require("http");
 
-module.exports = class AudioSourceTester {
+class AudioSourceTester {
+    constructor() {
+    }
+
     async testAudioSource(audioSource) {
         let getMethod = this.determineGetMethod(audioSource);
 
         return new Promise((resolve) => {
             let request = getMethod(audioSource.url, (response) => {
-                resolve(response.statusCode == 200 || response.statusCode == 302);
+                resolve(response.statusCode === 200 || response.statusCode === 302);
             });
 
             request.on("error", () => {
@@ -23,4 +26,6 @@ module.exports = class AudioSourceTester {
 
         return http.get;
     }
-};
+}
+
+module.exports = AudioSourceTester;
