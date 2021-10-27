@@ -26,8 +26,8 @@ class ModelFactory {
     }
 
     async getClipStorageModel() {
-        if (this.audioSourceModel == null) {
-            this.audioSourceModel = await createClipStorageModel();
+        if (this.clipStorageModel == null) {
+            this.clipStorageModel = await createClipStorageModel();
         }
 
         return this.clipStorageModel;

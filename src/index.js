@@ -48,9 +48,6 @@ passport.deserializeUser((user, done) => {
     done(null, user);
 });
 
-/**
- * App Startup
- */
 const modelFactory = require("./model/factory/modelFactory");
 const serviceFactory = require("./service/factory/serviceFactory");
 
@@ -74,7 +71,7 @@ async function main() {
     let recordingTaskService = await serviceFactory.getRecordingTaskService();
     createRecordingTaskRoutes(app, recordingTaskModel, recordingTaskService);
 
-    createViewRenderingRoutes(app, modelFactory, serviceFactory);
+    createViewRenderingRoutes(app, modelFactory);
 
     app.use("/", require("./api/authentication/authenticationRouter"));
 

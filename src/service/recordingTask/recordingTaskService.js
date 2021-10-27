@@ -19,7 +19,7 @@ module.exports = class RecordingTaskService {
         allRecordingTasks.forEach((recordingTask) => {
             if (this.activeRecordingTaskIds.has(recordingTask.id)) return;
 
-            if (date.getHours() != recordingTask.hour || date.getMinutes() != recordingTask.minute) return;
+            if (date.getHours() !== recordingTask.hour || date.getMinutes() !== recordingTask.minute) return;
 			
             this.executeRecordingTask(recordingTask)
                 .then((recordedFilename) => this.performPostRecordingTaskActions(recordingTask, recordedFilename));
