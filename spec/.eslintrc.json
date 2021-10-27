@@ -13,7 +13,7 @@
     "rules": {
         "indent": [
             "error",
-            "tab"
+            4
         ],
         "quotes": [
             "error",

@@ -8,55 +8,55 @@
 * @param {Int} duration The duration of the recording task in minutes.
 */
 module.exports = class RecordingTaskModel {
-	constructor(adapter) {
-		this.adapter = adapter;
-	}
+    constructor(adapter) {
+        this.adapter = adapter;
+    }
 
-	/**
+    /**
 	* Retrieve an array of all recording task objects currently stored in the model.
 	* @returns {Promise<Array>} A promise that resolves to an array of all recording task objects.
 	*/
-	async getRecordingTasks() {
-		return this.adapter.getRecordingTasks();
-	}
+    async getRecordingTasks() {
+        return this.adapter.getRecordingTasks();
+    }
 
-	/**
+    /**
 	* Returns a recording task object with an expected id.
 	* @param {String} id The unique string id of the recording task to be retrieved.
 	* @returns {Promise<Boolean>} A promise that resolves to the recording task with the requested id if it exists.
 	* Otherwise returns a promise that resolves to null.
 	*/
-	async getRecordingTask(id) {
-		return this.adapter.getRecordingTask(id);
-	}
+    async getRecordingTask(id) {
+        return this.adapter.getRecordingTask(id);
+    }
 
-	/**
+    /**
 	* Add a recording task object to the model.
 	* @param {RecordingTask} recordingTask The recording task object to be added.
 	* @returns {Promise<RecordingTask>} A promise that resolves to the added recording task object with a server-generated id.
 	* Otherwise returns a promise that resolves to null.
 	*/
-	async addRecordingTask(recordingTask) {
-		return this.adapter.addRecordingTask(recordingTask);
-	}
+    async addRecordingTask(recordingTask) {
+        return this.adapter.addRecordingTask(recordingTask);
+    }
 
-	/**
+    /**
 	* Updates a recording task with a specified id.
 	* @param {RecordingTask} recordingTask The recording task object to be added.
 	* @returns {Promise<Bool>} A promise that resolves to true if the task with the given id exists in the model.
 	* Otherwise returns a promise that resolves to null.
 	*/
-	async updateRecordingTask(recordingTask) {
-		return this.adapter.updateRecordingTask(recordingTask);
-	}
+    async updateRecordingTask(recordingTask) {
+        return this.adapter.updateRecordingTask(recordingTask);
+    }
 
-	/**
+    /**
 	* Removed a recording task with a specified id.
 	* @param {String} id The unique string id of the recording task to be removed.
 	* @returns {Promise<Bool>} A promise that resolves to true if the task with the given id exists in the model.
 	* Otherwise returns a promise that resolves to null.
 	*/
-	async removeRecordingTask(id) {
-		return this.adapter.removeRecordingTask(id);
-	}
+    async removeRecordingTask(id) {
+        return this.adapter.removeRecordingTask(id);
+    }
 };

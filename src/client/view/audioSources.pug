@@ -1,0 +1,60 @@
+extends layout
+
+block layout-specific-headers
+    script(src='./audioSources.js')
+
+block layout-content
+    div.AudioSources(class="container", style="padding-top: 16px;")
+        nav(class="panel is-info")
+            p(class="panel-heading") Audio Sources
+            each audioSourceName in audioSources
+                div(class="panel-block", style="justify-content: space-between;")
+                    p #{audioSourceName}
+                    div(class="buttons")
+                        button(class="button", onclick="onAudioSourceEditClicked('" + audioSourceName + "')")
+                            span(class="icon")
+                              img(src="./edit.svg")
+                        button(class="button", onclick="onAudioSourceDeleteClicked('" + audioSourceName + "')")
+                            span(class="icon")
+                              img(src="./delete.svg")
+            div(class="panel-block")
+                button(class="button is-link", onclick="onAddNewAudioSourceClicked()") Add New Audio Source
+        div(class="modal", id="edit-modal")
+            div(class="modal-background")
+            div(class="modal-card")
+                header(class="modal-card-head")
+                    p(class="modal-card-title", id="edit-modal-name")
+                    button(class="delete", onclick="closeEditModal()")
+                section(class="modal-card-body")
+                    p Url
+                    textarea(class="textarea", id="edit-modal-url")
+                    div(class="block")
+                footer(class="modal-card-foot")
+                    button(class="button is-success", onclick="onAudioSourceEditSaved()") Save
+                    button(class="button", onclick="closeEditModal()") Cancel
+        div(class="modal", id="creation-modal")
+            div(class="modal-background")
+            div(class="modal-card")
+                header(class="modal-card-head")
+                    p(class="modal-card-title") Audio Source Creation
+                    button(class="delete", onclick="closeCreationModal()")
+                section(class="modal-card-body")
+                    p Name
+                    input(class="input", type="text", id="creation-modal-name")
+                    div(class="block")
+                    p Url
+                    input(class="input", type="text", id="creation-modal-url")
+                footer(class="modal-card-foot")
+                    button(class="button is-success", onclick="onCreationConfirmed()") Save
+                    button(class="button", onclick="closeCreationModal()") Cancel
+        div(class="modal", id="deletion-modal")
+            div(class="modal-background")
+            div(class="modal-card")
+                header(class="modal-card-head")
+                    p(class="modal-card-title") Are you sure you want to delete the listed audio source?
+                    button(class="delete", onclick="closeDeletionModal()")
+                section(class="modal-card-body")
+                    p(id="deletion-modal-name") Name
+                footer(class="modal-card-foot")
+                    button(class="button is-danger", onclick="onDeletionConfirmed()") Delete
+                    button(class="button", onclick="closeDeletionModal()") Cancel
