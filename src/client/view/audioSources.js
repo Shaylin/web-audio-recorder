@@ -14,7 +14,6 @@ async function onAudioSourceEditClicked(audioSource) {
         });
 }
 
-//TODO: Possible include a feedback popup
 function onAudioSourceEditSaved() {
     const editModal = document.getElementById("edit-modal");
     const audioSourceName = document.getElementById("edit-modal-name").innerText;
@@ -29,14 +28,29 @@ function onAudioSourceEditSaved() {
         });
 }
 
+function closeEditModal() {
+    const editModal = document.getElementById("edit-modal");
+    editModal.classList.remove("is-active");
+}
+
 function onAddNewAudioSourceClicked(audioSourceData) {
     const creationModal = document.getElementById("creation-modal");
     creationModal.classList.add("is-active");
 }
 
-function closeEditModal() {
-    const editModal = document.getElementById("edit-modal");
-    editModal.classList.remove("is-active");
+function onCreationConfirmed() {
+    const creationModal = document.getElementById("creation-modal");
+    const audioSourceName = document.getElementById("creation-modal-name").value;
+    const audioSourceUrl = document.getElementById("creation-modal-url").value;
+
+    let requestBody = JSON.stringify({name: audioSourceName, url: audioSourceUrl});
+
+    fetch("/api/audioSources", {method: "POST", body: requestBody, headers: {"Content-Type": "application/json"}})
+        .then(response => response.json())
+        .then(() => {
+            creationModal.classList.remove("is-active");
+            location.reload();
+        });
 }
 
 function closeCreationModal() {

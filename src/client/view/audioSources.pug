@@ -18,7 +18,7 @@ block layout-content
                             span(class="icon")
                               img(src="./delete.svg")
             div(class="panel-block")
-                button(class="button is-link") Add New Audio Source
+                button(class="button is-link", onclick="onAddNewAudioSourceClicked()") Add New Audio Source
         div(class="modal", id="edit-modal")
             div(class="modal-background")
             div(class="modal-card")
@@ -40,12 +40,12 @@ block layout-content
                     button(class="delete", onclick="closeCreationModal()")
                 section(class="modal-card-body")
                     p Name
-                    input(class="input", type="text", id="edit-modal-name")
+                    input(class="input", type="text", id="creation-modal-name")
                     div(class="block")
                     p Url
-                    input(class="input", type="text", id="edit-modal-url")
+                    input(class="input", type="text", id="creation-modal-url")
                 footer(class="modal-card-foot")
-                    button(class="button is-success") Save
+                    button(class="button is-success", onclick="onCreationConfirmed()") Save
                     button(class="button", onclick="closeCreationModal()") Cancel
         div(class="modal", id="deletion-modal")
             div(class="modal-background")
