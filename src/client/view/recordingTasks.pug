@@ -1,5 +1,56 @@
 extends layout
 
+block layout-specific-headers
+    script(src='./recordingTasks.js')
+
 block layout-content
-    div.View.WelcomeView
-        div This is where the recording tasks will live
+     div.RecordingTasksViews(class="container", style="padding-top: 16px;")
+         nav(class="panel is-warning")
+            p(class="panel-heading") Recording Tasks
+            div(class="panel-block")
+                p(class="control has-icons-left")
+                    input(class="input", type="text", placeholder="Search")
+                    span(class="icon is-left")
+                        img(src="./search.svg")
+            div(class="panel-block")
+                button(class="button is-link", onclick="onAddNewRecordingTaskClicked()") Add New Recording Task
+            each recordingTask in recordingTasks
+                div(class="panel-block", style="justify-content: space-between;")
+                    p #{recordingTask.audioSourceName} - #{recordingTask.hour}:#{recordingTask.minute} - #{recordingTask.duration}m
+                    div(class="buttons")
+                        button(class="button", onclick="onRecordingTaskEditClicked('" + recordingTask.id + "')")
+                            span(class="icon")
+                              img(src="./edit.svg")
+                        button(class="button", onclick="onRecordingTaskDeleteClicked('" + recordingTask.id + "')")
+                            span(class="icon")
+                              img(src="./delete.svg")
+            div(class="modal", id="creation-modal")
+                div(class="modal-background")
+                div(class="modal-card")
+                    header(class="modal-card-head")
+                        p(class="modal-card-title", id="edit-modal-name") Recording Task Source Creation
+                        button(class="delete", onclick="closeCreationModal()")
+                    section(class="modal-card-body")
+                        div(class="dropdown is-hoverable", id="audio-source-dropdown")
+                            div(class="dropdown-trigger", aria-controls="audio-source-menu")
+                                button(class="button")
+                                    span(id="audio-source-text") Select Audio Source
+                                    span(class="icon is-small")
+                                        img(src="./down.svg")
+                            div(class="dropdown-menu", id="audio-source-menu", role="menu")
+                                div(class="dropdown-content")
+                                    each audioSourceName in audioSources
+                                        div(class="dropdown-item")
+                                            button(class="button", onclick="onAudioSourceSelected('" + audioSourceName + "')") #{audioSourceName}
+                        div(class="block")
+                        p Schedule Hour (0-23)
+                        input(class="input", type="text", id="creation-modal-hours")
+                        div(class="block")
+                        p Schedule Minute (0-59)
+                        input(class="input", type="text", id="creation-modal-minutes")
+                        div(class="block")
+                        p Recording Duration (minutes)
+                        input(class="input", type="text", id="creation-modal-duration")
+                    footer(class="modal-card-foot")
+                        button(class="button is-success", onclick="onCreationConfirmed()") Save
+                        button(class="button", onclick="closeCreationModal()") Cancel
