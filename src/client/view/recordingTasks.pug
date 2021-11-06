@@ -8,11 +8,6 @@ block layout-content
          nav(class="panel is-warning")
             p(class="panel-heading") Recording Tasks
             div(class="panel-block")
-                p(class="control has-icons-left")
-                    input(class="input", type="text", placeholder="Search")
-                    span(class="icon is-left")
-                        img(src="./search.svg")
-            div(class="panel-block")
                 button(class="button is-link", onclick="onAddNewRecordingTaskClicked()") Add New Recording Task
             each recordingTask in recordingTasks
                 div(class="panel-block", style="justify-content: space-between;")
@@ -54,3 +49,14 @@ block layout-content
                     footer(class="modal-card-foot")
                         button(class="button is-success", onclick="onCreationConfirmed()") Save
                         button(class="button", onclick="closeCreationModal()") Cancel
+            div(class="modal", id="deletion-modal")
+                div(class="modal-background")
+                div(class="modal-card")
+                    header(class="modal-card-head")
+                        p(class="modal-card-title") Are you sure you want to delete the recording task?
+                        button(class="delete", onclick="closeDeletionModal()")
+                    section(class="modal-card-body")
+                        p(id="deletion-modal-name") Name
+                    footer(class="modal-card-foot")
+                        button(class="button is-danger", onclick="onDeletionConfirmed()") Delete
+                        button(class="button", onclick="closeDeletionModal()") Cancel
