@@ -7,8 +7,8 @@ module.exports = class MinioClipStorageModel {
     async getClips() {
         let clipObjects = [];
         let clipStream = this.minioClient.listObjects(this.bucketName);
-		
-        let clipObjectsPromise = new Promise(resolve => {
+
+        return new Promise(resolve => {
             clipStream.on("data", (clipObject) => {
                 let clipToAdd = {};
                 clipToAdd.name = clipObject.name;
@@ -22,8 +22,6 @@ module.exports = class MinioClipStorageModel {
                 resolve(clipObjects);
             });
         });
-		
-        return clipObjectsPromise;
     }
 
     async getClipDownloadLink(name) {

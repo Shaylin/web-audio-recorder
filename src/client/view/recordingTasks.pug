@@ -13,6 +13,8 @@ block layout-content
                 div(class="panel-block", style="justify-content: space-between;")
                     p #{recordingTask.audioSourceName} - #{recordingTask.hour}:#{recordingTask.minute} - #{recordingTask.duration}m
                     div(class="buttons")
+                        if recordingTask.active
+                            span(class="tag is-success", style="margin-right: 8px; margin-bottom: 8px;") Running
                         button(class="button", onclick="onRecordingTaskEditClicked('" + recordingTask.id + "')")
                             span(class="icon")
                               img(src="./edit.svg")

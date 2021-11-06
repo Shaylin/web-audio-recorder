@@ -71,7 +71,7 @@ async function main() {
     let recordingTaskService = await serviceFactory.getRecordingTaskService();
     createRecordingTaskRoutes(app, recordingTaskModel, recordingTaskService);
 
-    createViewRenderingRoutes(app, modelFactory);
+    createViewRenderingRoutes(app, modelFactory, serviceFactory);
 
     app.use("/", require("./api/authentication/authenticationRouter"));
 
