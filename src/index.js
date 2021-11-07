@@ -59,7 +59,6 @@ const createViewRenderingRoutes = require("./api/viewRendering/createViewRenderi
 async function main() {
     let clipStorageModel = await modelFactory.getClipStorageModel();
     if (isObjectStorageEnabled) {
-        //TODO: Eventually configure these to use the factories directly
         createClipStorageRoutes(app, clipStorageModel);
     }
 

@@ -18,13 +18,14 @@
   },
   "description": "An express web app that allows for scheduled recording of audio sources.",
   "devDependencies": {
+    "copy-webpack-plugin": "^6.4.1",
     "eslint": "^7.32.0",
     "jasmine": "^3.9.0",
+    "shx": "^0.3.3",
     "supertest": "^4.0.2",
-    "webpack-node-externals": "^3.0.0",
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
-    "copy-webpack-plugin": "^6.4.1"
+    "webpack-node-externals": "^3.0.0"
   },
   "homepage": "https://gitlab.com/Shaylin/web-audio-recorder#readme",
   "license": "ISC",
@@ -39,7 +40,7 @@
     "lint": "npx eslint src spec",
     "lintAndFix": "npx eslint src spec --fix",
     "build": "npx webpack",
-    "buildAndServe": "npx webpack && cd build && node server.js",
+    "buildAndServe": "npx webpack && npx shx cp ./src/.env ./build/.env && cd build && node server.js",
     "serveDev": "cd src && node index.js"
   },
   "version": "1.0.0"

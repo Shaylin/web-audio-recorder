@@ -38,11 +38,12 @@ SESSION_SECRET=generatedSessionSecret - node -e "console.log(crypto.randomBytes(
 AUTH0_CALLBACK_URL=http://localhost:3000/callback
 
 OBJECT_STORAGE_ENABLED=true
-OBJECT_STORAGE_ENDPOINT=sg.somespaces.com
+OBJECT_STORAGE_ENDPOINT=s3.af-south-1.amazonaws.com
 OBJECT_STORAGE_USE_SSL=true
 OBJECT_STORAGE_ACCESS_KEY=yourStorageAccessKey
 OBJECT_STORAGE_SECRET_KEY=yourSecret
 OBJECT_STORAGE_BUCKET_NAME=yourBucketName
+OBJECT_STORAGE_REGION=af-south-1
 ```
 
 ## TODO:

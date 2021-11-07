@@ -8,7 +8,7 @@ module.exports = () => {
         useSSL: process.env.OBJECT_STORAGE_USE_SSL === "true",
         accessKey: process.env.OBJECT_STORAGE_ACCESS_KEY,
         secretKey: process.env.OBJECT_STORAGE_SECRET_KEY,
-        region: "af-south-1" //TODO: Pull this out to a variable
+        region: process.env.OBJECT_STORAGE_REGION
     });
 
     return new MinioClipStorageModel(minioClient, process.env.OBJECT_STORAGE_BUCKET_NAME);
