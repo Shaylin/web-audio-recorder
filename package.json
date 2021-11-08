@@ -39,7 +39,7 @@
     "test": "npx jasmine",
     "lint": "npx eslint src spec",
     "lintAndFix": "npx eslint src spec --fix",
-    "build": "npx webpack",
+    "build": "npx webpack && npx shx cp ./src/.env ./build/.env",
     "buildAndServe": "npx webpack && npx shx cp ./src/.env ./build/.env && cd build && node server.js",
     "serveDev": "cd src && node index.js"
   },

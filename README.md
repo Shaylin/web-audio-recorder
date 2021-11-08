@@ -12,10 +12,10 @@ The primary goal of this project was to develop a node webapp to be deployed to 
 ## Setup
 
 ### Software Dependencies 
+
 * Node.js 14 LTS - While this project may work with earlier versions, the latest Node.js 14 LTS is what it's being developed with.
 
-### Building
-Builds are currently uploaded to the package registry as part of tag releases. These builds use webpack to bundle all dependencies and may be used for production use.
+### Building & Development
 
 For building the project yourself, use the following steps:
 * Clone the repository or download a zip of the repository and extract it
@@ -24,8 +24,15 @@ For building the project yourself, use the following steps:
 * You should now have a build directory that contains the server javascript bundle, the client view files as well as a server configuration json file.
 * To run the built app run `node server.js` inside the build folder.
 
+Alternatively, you can both build and serve the app with:
+* `npm run buildAndServe`
+
+To serve the un-bundled and minified app during development, run:
+* `npm run serve`
+
 ### Configuration
-For development, create a `.env` file with the following fields under the src directory. For production, this file must be present in the build directory.
+
+Create a `.env` file with the following fields under the `src` directory. This file is copied to the build directory for production builds.
 ```
 PORT=9000
 DELETE_CLIPS_AFTERWARDS=false
@@ -48,4 +55,4 @@ OBJECT_STORAGE_REGION=af-south-1
 
 ## TODO:
 * Logging
-* Configuration docs
+* NPM Publishing
