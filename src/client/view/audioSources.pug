@@ -5,8 +5,10 @@ block layout-specific-headers
 
 block layout-content
     div.AudioSources(class="container", style="padding-top: 16px;")
-        nav(class="panel is-info")
+        nav(class="panel is-success")
             p(class="panel-heading") Audio Sources
+                div(class="panel-block")
+                    button(class="button is-link", onclick="onAddNewAudioSourceClicked()") Add New Audio Source
             each audioSourceName in audioSources
                 div(class="panel-block", style="justify-content: space-between;")
                     p #{audioSourceName}
@@ -17,8 +19,6 @@ block layout-content
                         button(class="button", onclick="onAudioSourceDeleteClicked('" + audioSourceName + "')")
                             span(class="icon")
                               img(src="./delete.svg")
-            div(class="panel-block")
-                button(class="button is-link", onclick="onAddNewAudioSourceClicked()") Add New Audio Source
         div(class="modal", id="edit-modal")
             div(class="modal-background")
             div(class="modal-card")
@@ -51,7 +51,7 @@ block layout-content
             div(class="modal-background")
             div(class="modal-card")
                 header(class="modal-card-head")
-                    p(class="modal-card-title") Are you sure you want to delete the listed audio source?
+                    p(class="modal-card-title") Are you sure you want to delete the audio source?
                     button(class="delete", onclick="closeDeletionModal()")
                 section(class="modal-card-body")
                     p(id="deletion-modal-name") Name

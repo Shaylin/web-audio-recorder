@@ -14,10 +14,10 @@ module.exports = async function () {
     return recordingTaskService;
 };
 
-function postRecordingAction(recordingFilename) {
+async function postRecordingAction(recordingFilename) {
     if (!isObjectStorageEnabled) return;
 
-    const clipStorageModel = modelFactory.getClipStorageModel();
+    const clipStorageModel = await modelFactory.getClipStorageModel();
 
     console.log(`Performing post recording actions on ${recordingFilename}.`);
 

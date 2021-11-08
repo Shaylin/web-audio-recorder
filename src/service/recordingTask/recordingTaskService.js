@@ -38,9 +38,9 @@ module.exports = class RecordingTaskService {
     performPostRecordingTaskActions(recordingTask, recordedFilename) {
         console.log(`Completed Recording ${recordedFilename}`);
 
-        this.postRecordingAction(recordedFilename);
-
         this.activeRecordingTaskIds.delete(recordingTask.id);
+
+        this.postRecordingAction(recordedFilename);
     }
 
     getActiveRecordingTaskIds() {

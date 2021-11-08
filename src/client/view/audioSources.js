@@ -25,6 +25,8 @@ function onAudioSourceEditSaved() {
         .then(response => response.json())
         .then(() => {
             editModal.classList.remove("is-active");
+            // eslint-disable-next-line no-undef
+            bulmaToast.toast({message: `${audioSourceName} edited`, type: "is-success", position: "bottom-right"});
         });
 }
 

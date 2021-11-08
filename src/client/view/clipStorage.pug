@@ -1,5 +1,16 @@
 extends layout
 
+block layout-specific-headers
+    script(src='./clipStorage.js')
+
 block layout-content
-    div.View.WelcomeView
-        div This is where the stored clips will live
+    div.ClipStorageView(class="container", style="padding-top: 16px;")
+        nav(class="panel is-link")
+            p(class="panel-heading") Recorded Clips
+            each audioClip in audioClips
+                div(class="panel-block", style="justify-content: space-between;")
+                    p #{audioClip.name} - #{(audioClip.fileSize / 1000 / 1000).toFixed(2)}MB
+                    div(class="buttons")
+                        button(class="button", onclick="onClipDownloadRequested('" + audioClip.name + "')")
+                            span(class="icon")
+                              img(src="./download.svg")

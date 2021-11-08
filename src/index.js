@@ -59,7 +59,6 @@ const createViewRenderingRoutes = require("./api/viewRendering/createViewRenderi
 async function main() {
     let clipStorageModel = await modelFactory.getClipStorageModel();
     if (isObjectStorageEnabled) {
-        //TODO: Eventually configure these to use the factories directly
         createClipStorageRoutes(app, clipStorageModel);
     }
 
@@ -71,7 +70,7 @@ async function main() {
     let recordingTaskService = await serviceFactory.getRecordingTaskService();
     createRecordingTaskRoutes(app, recordingTaskModel, recordingTaskService);
 
-    createViewRenderingRoutes(app, modelFactory);
+    createViewRenderingRoutes(app, modelFactory, serviceFactory);
 
     app.use("/", require("./api/authentication/authenticationRouter"));
 

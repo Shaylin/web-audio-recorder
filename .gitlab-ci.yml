@@ -1,6 +1,5 @@
 stages:
   - quality
-  - release
 
 image: node:lts-alpine
 
@@ -19,14 +18,3 @@ lint:
   script: 
     - npm install
     - npm run lint
-
-release:
-  stage: release
-  only:
-    - tags
-  script:
-    - npm install
-    - apk --no-cache add curl
-    - npm run build
-    - tar -czvf web-audio-recorder-${CI_COMMIT_TAG}.tar.gz ./build
-    - node ./ci/generateRelease.js web-audio-recorder-${CI_COMMIT_TAG}.tar.gz
