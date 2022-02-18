@@ -13,7 +13,7 @@ The primary goal of this project was to develop a node webapp to be deployed to 
 
 ### Software Dependencies 
 
-* Node.js 14 LTS - While this project may work with earlier versions, the latest Node.js 14 LTS is what it's being developed with.
+* Node.js 16 LTS
 
 ### Building & Development
 
@@ -27,7 +27,7 @@ For building the project yourself, use the following steps:
 Alternatively, you can both build and serve the app with:
 * `npm run buildAndServe`
 
-To serve the un-bundled and minified app during development, run:
+To serve the un-bundled and un-minified app during development, run:
 * `npm run serve`
 
 ### Configuration
@@ -52,7 +52,3 @@ OBJECT_STORAGE_SECRET_KEY=yourSecret
 OBJECT_STORAGE_BUCKET_NAME=yourBucketName
 OBJECT_STORAGE_REGION=af-south-1
 ```
-
-## TODO:
-* Logging
-* NPM Publishing
