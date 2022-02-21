@@ -8,7 +8,7 @@ module.exports = function (recordingTask, url) {
 
         console.log(`Starting recording for ${recordingName}`);
 
-        childProcess.exec(`${ffmpegPath} -i ${url} -ac 1 -b:a 64K -t ${durationInSeconds} ${recordingName}`,
+        childProcess.exec(`${ffmpegPath} -i ${url} -ac 1 -b:a 64K -t ${durationInSeconds} "${recordingName}"`,
             { encoding: "utf8" },
             (error) => {
                 if (error && error.code) {

@@ -1,6 +1,11 @@
 /* eslint-disable no-unused-vars */
 function onAddNewRecordingTaskClicked() {
     const creationModal = document.getElementById("creation-modal");
+    document.getElementById("audio-source-text").innerText = "";
+    document.getElementById("creation-modal-hours").value = "";
+    document.getElementById("creation-modal-minutes").value = "";
+    document.getElementById("creation-modal-duration").value = "";
+
     creationModal.classList.add("is-active");
 }
 

@@ -1,6 +1,6 @@
 # web-audio-recorder
 
-An express based web app that allows for scheduled recording of audio sources. This app features a client interface to manage the recording schedulle. Recorded audio clips may optionally be stored in S3 object storage and accessed from the client interface.
+An express based web app that allows for scheduled recording of audio sources. This app features a client interface to manage the recording schedule. Recorded audio clips may optionally be stored in S3 object storage and accessed from the client interface.
 
 ## Use cases
 
@@ -8,6 +8,24 @@ The primary goal of this project was to develop a node webapp to be deployed to 
 * Recording scheduled web radio shows to listen to them later. 
 * Having a reliable method to automatically record radio stations for brand management purposes, like ensuring advertisements ran during those shows.
 * Scheduled recordings of a streaming home media server.
+
+## Features
+
+### Login Integration With Auth0
+
+![Logging In](images/Login.gif)
+
+### Manage Audio Sources
+
+![Manage Audio Sources](images/ManageAudioSources.gif)
+
+### Manage Recording Tasks
+
+![Manage Recording Tasks](images/ManageRecordingTasks.gif)
+
+### Download Recorded Clips From S3
+
+![Download Recorded Clips](images/DownloadingClips.gif)
 
 ## Setup
 
@@ -35,14 +53,14 @@ To serve the un-bundled and un-minified app during development, run:
 Create a `.env` file with the following fields under the `src` directory. This file is copied to the build directory for production builds.
 ```
 PORT=9000
-DELETE_CLIPS_AFTERWARDS=false
+DELETE_CLIPS_AFTERWARDS=true
 
 AUTH0_ENABLED=true
-AUTH0_DOMAN=your.auth.domain
+AUTH0_DOMAIN=your.auth.domain
 AUTH0_CLIENT_ID=blabla
 AUTH0_CLIENT_SECRET=ssssh
 SESSION_SECRET=generatedSessionSecret - node -e "console.log(crypto.randomBytes(32).toString('hex'))"
-AUTH0_CALLBACK_URL=http://localhost:3000/callback
+AUTH0_CALLBACK_URL=http://localhost:9000/callback
 
 OBJECT_STORAGE_ENABLED=true
 OBJECT_STORAGE_ENDPOINT=s3.af-south-1.amazonaws.com

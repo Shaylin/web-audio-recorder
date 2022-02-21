@@ -37,6 +37,9 @@ function closeEditModal() {
 
 function onAddNewAudioSourceClicked(audioSourceData) {
     const creationModal = document.getElementById("creation-modal");
+    document.getElementById("edit-modal-name").innerText = "";
+    document.getElementById("edit-modal-url").value = "";
+
     creationModal.classList.add("is-active");
 }
 
